@@ -51,6 +51,11 @@ export default {
           "4": "hsl(var(--chart-4))",
           "5": "hsl(var(--chart-5))",
         },
+        beige: {
+          low: "var(--beige-low)",
+          medium: "var(--beige-medium)",
+          high: "var(--beige-high)",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
