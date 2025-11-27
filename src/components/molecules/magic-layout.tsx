@@ -32,7 +32,7 @@ export const MagicLayout: React.FC<MagicLayoutProps> = ({
           mode="header"
           paw={{
             name: "Buddy",
-            species: "Dog",
+            species: "dog",
             breed: "Golden Retriever",
             color: "Golden",
             description: "Friendly dog looking for owner",

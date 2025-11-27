@@ -1,4 +1,4 @@
-import * as z from "zod";
+import { z } from "zod/v3";
 
 export const species = [
   "dog",
@@ -7,7 +7,7 @@ export const species = [
   "guinea pig",
   "hamster",
   "other",
-];
+] as const;
 export const animalFormSchema = z.object({
   name: z.string().min(1).max(100).nullable(),
   species: z.enum(species),

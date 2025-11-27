@@ -35,7 +35,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
         isDragging,
         dragProps,
       }) => (
-        <div className="flex flex-col gap-2 relative h-full">
+        <div className="flex flex-col gap-2 relative flex-1 h-full">
           {imageList.length > 0 ? (
             <div className="absolute top-2 right-2 flex gap-2">
               <Button onClick={() => onImageUpdate(0)} size="icon">
@@ -48,6 +48,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
           ) : null}
 
           {imageList.length > 0 ? (
+            // biome-ignore lint/performance/noImgElement: no explanation
             <img
               src={imageList[0]["data_url"]}
               alt="pet"

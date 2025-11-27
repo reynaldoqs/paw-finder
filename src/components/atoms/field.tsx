@@ -4,9 +4,10 @@
 
 import { cva, type VariantProps } from "class-variance-authority";
 import { useMemo } from "react";
-import { Label } from "@/src/components/ui/atoms/label";
-import { Separator } from "@/src/components/ui/atoms/separator";
+
 import { cn } from "@/src/lib/utils";
+import { Label } from "./label";
+import { Separator } from "./separator";
 
 function FieldSet({ className, ...props }: React.ComponentProps<"fieldset">) {
   return (
@@ -144,7 +145,7 @@ function FieldDescription({ className, ...props }: React.ComponentProps<"p">) {
     <p
       data-slot="field-description"
       className={cn(
-        "text-muted-foreground text-sm font-normal leading-normal group-has-[[data-orientation=horizontal]]/field:text-balance",
+        "text-muted-foreground text-xs font-normal leading-normal group-has-[[data-orientation=horizontal]]/field:text-balance",
         "nth-last-2:-mt-1 last:mt-0 [[data-variant=legend]+&]:-mt-1.5",
         "[&>a:hover]:text-primary [&>a]:underline [&>a]:underline-offset-4",
         className
