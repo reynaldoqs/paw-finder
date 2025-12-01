@@ -2,7 +2,7 @@ import React from "react";
 
 type EmojiProps = {
   emoji: string;
-  label: string;
+  label?: string;
   size?: number;
   lineHeight?: number;
   className?: string;
@@ -10,7 +10,7 @@ type EmojiProps = {
 
 export const Emoji: React.FC<EmojiProps> = ({
   emoji,
-  label,
+  label = "",
   size = 18,
   lineHeight = 1,
   className = "",

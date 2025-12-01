@@ -49,7 +49,7 @@ export const AnimalCard: React.FC<AnimalCardProps> = ({
   };
 
   const speciesColor =
-    speciesColors[animal.species as keyof typeof speciesColors] ||
+    speciesColors[animal.specie as keyof typeof speciesColors] ||
     speciesColors.other;
 
   const CardContent = (
@@ -83,7 +83,7 @@ export const AnimalCard: React.FC<AnimalCardProps> = ({
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
         {/* Species Badge */}
-        {animal.species && (
+        {animal.specie && (
           <div className="absolute top-3 right-3">
             <span
               className={cn(
@@ -91,7 +91,7 @@ export const AnimalCard: React.FC<AnimalCardProps> = ({
                 speciesColor
               )}
             >
-              {animal.species}
+              {animal.specie}
             </span>
           </div>
         )}

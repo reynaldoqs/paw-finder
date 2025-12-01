@@ -1,5 +1,5 @@
 // import { redirect } from "next/navigation";
-import { UploadContent } from "@/src/components";
+import { LostReportContent } from "@/src/components";
 import { createClient } from "@/src/lib/supabase/server";
 
 export default async function FoundPage() {
@@ -12,7 +12,7 @@ export default async function FoundPage() {
 
   return (
     <div className="flex flex-1 flex-col gap-12">
-      <UploadContent />
+      <LostReportContent />
     </div>
   );
 }

@@ -1,24 +1,54 @@
 "use client";
-import { Controller, useFormContext } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Controller, useForm } from "react-hook-form";
 import type { ImageListType } from "react-images-uploading";
+import { animalFormSchema } from "@/src/types";
+import { Button } from "../atoms";
 import { ImageUploader } from "../molecules";
+import { useStepper } from "../molecules/stepper-context";
+
+const imageFormSchema = animalFormSchema.pick({ imageFile: true });
 
 export const LostAnimalImageForm: React.FC = () => {
-  const { control } = useFormContext();
+  const { next, formData, updateFormData } = useStepper();
+
+  const { control, handleSubmit, formState } = useForm({
+    resolver: zodResolver(imageFormSchema),
+    mode: "onChange",
+    defaultValues: { imageFile: (formData.imageFile as any) || [] },
+  });
+
+  const onFormSubmit = (data: any) => {
+    updateFormData(data);
+    next();
+  };
 
   return (
-    <Controller
-      name="imageFile"
-      control={control}
-      render={({ field }) => {
-        const value = (field.value as ImageListType | undefined) ?? [];
-        return (
-          <ImageUploader
-            images={value}
-            onChange={(newImages) => field.onChange(newImages)}
-          />
-        );
-      }}
-    />
+    <form
+      onSubmit={handleSubmit(onFormSubmit)}
+      className="flex flex-col flex-1 mt-10"
+    >
+      <div className="flex-1 mb-6">
+        <Controller
+          name="imageFile"
+          control={control}
+          render={({ field }) => {
+            const value = (field.value as ImageListType | undefined) ?? [];
+            return (
+              <ImageUploader
+                images={value}
+                onChange={(newImages) => field.onChange(newImages)}
+              />
+            );
+          }}
+        />
+      </div>
+
+      <div className="flex items-center justify-end gap-2 border-t border-border pt-4">
+        <Button type="submit" disabled={!formState.isValid}>
+          Continue
+        </Button>
+      </div>
+    </form>
   );
 };
