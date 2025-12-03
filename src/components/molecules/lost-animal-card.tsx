@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { cn } from "@/src/lib/utils";
-import type { AnimalForm } from "@/src/types";
+import { cn } from "@/lib/utils";
+import type { AnimalForm } from "@/types";
 
 export type LostAnimalCardMode = "form" | "header";
 

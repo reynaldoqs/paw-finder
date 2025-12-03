@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import type { AnimalForm } from "@/src/types";
+import type { AnimalForm } from "@/types";
 
 type StepperContextValue = {
   next: () => void;

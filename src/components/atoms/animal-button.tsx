@@ -1,5 +1,5 @@
-import { cn } from "@/src/lib/utils";
-import { species, speciesColors, speciesIcons } from "@/src/constants";
+import { type species, speciesColors, speciesIcons } from "@/constants";
+import { cn } from "@/lib/utils";
 
 type AnimalButtonProps = {
   specie: (typeof species)[number];

@@ -2,9 +2,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import type { z } from "zod/v3";
-import { species, speciesColors } from "@/src/constants";
-import { cn } from "@/src/lib/utils";
-import { animalFormSchema } from "@/src/types";
+import { species, speciesColors } from "@/constants";
+import { cn } from "@/lib/utils";
+import { animalFormSchema } from "@/types";
 import { AnimalButton, Button, FieldGroup } from "../atoms";
 import { useStepper } from "../molecules/stepper-context";
 

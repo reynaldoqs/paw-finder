@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import type { AnimalForm } from "@/src/types";
+import type { AnimalForm } from "@/types";
 import { Stepper, StepperProvider, TransitionContainer } from "../molecules";
 import { LostAnimalImageForm } from "./lost-animal-image-form";
 import { LostAnimalInfoForm } from "./lost-animal-info-form";

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Inter_Tight } from "next/font/google";
+import { Lato } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import "./globals.css";
-import { MainFooter, MainNavbar } from "@/src/components";
+import { MainFooter, MainNavbar } from "@/components";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -14,8 +14,9 @@ export const metadata: Metadata = {
   description: "Find lost pets",
 };
 
-const inter_tight = Inter_Tight({
-  variable: "--font-inter-tight",
+const lato = Lato({
+  variable: "--font-lato",
+  weight: ["300", "400", "700", "900"],
   display: "swap",
   subsets: ["latin"],
 });
@@ -27,9 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${inter_tight.className} antialiased min-h-screen w-full`}
-      >
+      <body className={`${lato.className} antialiased min-h-screen w-full`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

@@ -1,4 +1,4 @@
-import { MainNavbar } from "@/src/components";
+import { MainNavbar } from "@/components";
 
 export default function FoundLayout({
   children,

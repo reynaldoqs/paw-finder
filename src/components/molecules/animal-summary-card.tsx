@@ -1,9 +1,9 @@
 "use client";
 import { format } from "date-fns";
 import type { ImageListType } from "react-images-uploading";
-import { animalBgs, speciesColors, speciesIcons } from "@/src/constants";
-import { cn } from "@/src/lib/utils";
-import type { AnimalForm } from "@/src/types";
+import { animalBgs, speciesColors, speciesIcons } from "@/constants";
+import { cn } from "@/lib/utils";
+import type { AnimalForm } from "@/types";
 import { Emoji, Separator } from "../atoms";
 import { Badge } from "../atoms/badge";
 

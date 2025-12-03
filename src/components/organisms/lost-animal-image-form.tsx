@@ -2,7 +2,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import type { ImageListType } from "react-images-uploading";
-import { animalFormSchema } from "@/src/types";
+import { animalFormSchema } from "@/types";
 import { Button } from "../atoms";
 import { ImageUploader } from "../molecules";
 import { useStepper } from "../molecules/stepper-context";

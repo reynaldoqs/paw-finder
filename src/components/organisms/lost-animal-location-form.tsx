@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod/v3";
-import { cn } from "@/src/lib/utils";
+import { cn } from "@/lib/utils";
 import {
   Button,
   Field,

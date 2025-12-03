@@ -4,8 +4,7 @@ import * as React from "react";
 import * as RPNInput from "react-phone-number-input";
 import flags from "react-phone-number-input/flags";
 
-import { cn } from "@/src/lib/utils";
-import { Popover, PopoverContent, PopoverTrigger } from "./popover";
+import { cn } from "@/lib/utils";
 import { Button } from "./button";
 import {
   Command,
@@ -15,6 +14,7 @@ import {
   CommandItem,
   CommandList,
 } from "./command";
+import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 import { ScrollArea } from "./scroll-area";
 
 type PhoneInputProps = Omit<
@@ -46,7 +46,7 @@ const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> =
            *
            * @param {E164Number | undefined} value - The entered value
            */
-          // @ts-ignore
+          // @ts-expect-error
           onChange={(value) => onChange?.(value || "")}
           {...props}
         />

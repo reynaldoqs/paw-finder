@@ -1,5 +1,4 @@
 import Image from "next/image";
-import logo from "@/public/images/paw-logo.svg";
 import { AuthMenu } from "./auth-menu";
 import { MobileNavigation, Navigation } from "./navigation";
 
@@ -9,7 +8,12 @@ export const MainNavbar: React.FC = () => {
       <div className="flex items-center justify-between px-2 sm:px-6 py-2 sm:py-4">
         <div className="flex flex-1 justify-start">
           <MobileNavigation />
-          <Image src={logo} alt="Paw Icon" width={28} height={28} />
+          <Image
+            src="/public/images/paw-logo.svg"
+            alt="Paw Icon"
+            width={28}
+            height={28}
+          />
         </div>
         <div className="flex flex-3 justify-center gap-2 sm:gap-4">
           <Navigation />

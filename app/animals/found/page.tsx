@@ -1,6 +1,6 @@
 // import { redirect } from "next/navigation";
-import { LostReportContent } from "@/src/components";
-import { createClient } from "@/src/lib/supabase/server";
+import { LostReportContent } from "@/components";
+import { createClient } from "@/lib/supabase/server";
 
 export default async function FoundPage() {
   // const supabase = await createClient();

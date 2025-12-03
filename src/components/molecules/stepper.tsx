@@ -1,7 +1,7 @@
 "use client";
 
-import * as React from "react";
-import { cn } from "@/src/lib/utils";
+import type * as React from "react";
+import { cn } from "@/lib/utils";
 import { useStepper } from "./stepper-context";
 
 type StepData = {

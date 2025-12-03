@@ -2,9 +2,9 @@
 
 import { AlertCircle, CheckCircle2, Loader2, Upload, X } from "lucide-react";
 import { type ChangeEvent, useRef, useState } from "react";
-import { Button } from "@/src/components/ui/button";
-import { Card } from "@/src/components/ui/card";
-import { cn } from "@/src/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
 interface UploadResponse {
   success: boolean;
