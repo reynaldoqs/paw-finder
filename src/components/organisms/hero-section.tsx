@@ -1,43 +1,45 @@
-import { GradientText } from "../atoms";
+import Image from "next/image";
+import { Button } from "../atoms";
 
 export const HeroSection = () => {
   return (
-    <section className="relative flex items-center justify-center min-h-[40vh] px-4 overflow-hidden">
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-gray-900 dark:bg-gray-100 rounded-full mix-blend-multiply dark:mix-blend-soft-light opacity-70 animate-blob" />
-        <div className="absolute top-40 right-10 w-72 h-72 bg-gray-900 dark:bg-gray-100 rounded-full mix-blend-multiply dark:mix-blend-soft-light opacity-70 animate-blob animation-delay-2000" />
-        <div className="absolute -bottom-8 left-1/2 w-72 h-72 bg-gray-900 dark:bg-gray-100 rounded-full mix-blend-multiply dark:mix-blend-soft-light opacity-70 animate-blob animation-delay-4000" />
-      </div>
-
-      <div className="text-center space-y-6 max-w-4xl mx-auto">
-        <div className="space-y-2">
-          <h1 className="text-6xl md:text-8xl font-bold tracking-tight">
-            <GradientText>🐾 PawFinder</GradientText>
+    <section className="relative flex justify-between min-h-[60vh] w-full max-w-[1600px] mx-auto overflow-hidden">
+      <div className="flex flex-1 flex-col justify-center space-y-6">
+        <div className="px-6 py-2">
+          <h1 className="text-4xl md:text-6xl font-extrabold tracking-normal">
+            Discover the <br /> World’s Top Designers
           </h1>
-          <p className="text-xl md:text-2xl text-muted-foreground font-medium">
-            Reuniting pets with their families 💕
+          <p className="text-md md:text-lg text-foreground font-medium w-2/3 leading-5 md:leading-5 mt-4">
+            Explore work from the most talented and accomplished designers ready
+            to take on your next project.
           </p>
         </div>
-
-        <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-          Lost a furry friend? Found a wandering pet? We're here to help bring
-          them home! 🏡✨
-        </p>
-
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
-          <button
+        <div className="px-6 flex gap-6">
+          <Button
             type="button"
-            className="px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105"
+            size="lg"
+            variant="outline"
+            className="text-lg px-8 py-6 rounded-lg border-2"
           >
-            Report Lost Pet 😿
-          </button>
-          <button
+            Report found pet
+          </Button>
+          <Button
             type="button"
-            className="px-8 py-4 bg-gradient-to-r from-green-600 to-teal-600 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105"
+            size="lg"
+            className="text-lg px-8 py-6 rounded-lg"
           >
-            Report Found Pet 😺
-          </button>
+            Report lost pet
+          </Button>
         </div>
+      </div>
+      <div className="flex flex-1 justify-center pl-6">
+        <Image
+          src="/images/cat-dog.png"
+          alt="Paw Icon"
+          objectFit="contain"
+          width={390}
+          height={350}
+        />
       </div>
     </section>
   );

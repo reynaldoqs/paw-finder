@@ -9,7 +9,7 @@ export const MainNavbar: React.FC = () => {
         <div className="flex flex-1 justify-start">
           <MobileNavigation />
           <Image
-            src="/public/images/paw-logo.svg"
+            src="/images/paw_logo.svg"
             alt="Paw Icon"
             width={28}
             height={28}

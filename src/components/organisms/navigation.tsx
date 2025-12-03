@@ -33,7 +33,7 @@ export const Navigation: React.FC<NavigationProps> = ({ className }) => {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Pets</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid gap-2 p-2 sm:w-[210px] md:w-[310px]">
+            <ul className="grid gap-2 p-3 sm:w-[210px] md:w-[310px]">
               <ListItem title="Lost pets" href="/pets/lost">
                 List of lost pets
               </ListItem>
@@ -46,7 +46,7 @@ export const Navigation: React.FC<NavigationProps> = ({ className }) => {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Actions</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid gap-2 px-2 py-2 sm:w-[210px] md:w-[310px]">
+            <ul className="grid gap-2 px-3 py-3 sm:w-[210px] md:w-[310px]">
               <ListItem title="Report lost pet" href="/animals/lost">
                 By uploading a photo, description, and last seen location so the
                 community can help find it.
@@ -109,7 +109,7 @@ const ListItem = ({
   ...props
 }: React.ComponentPropsWithoutRef<"li"> & { href: string }) => {
   return (
-    <li {...props} className="hover:bg-accent p-2 rounded-sm">
+    <li {...props} className="hover:bg-accent p-4 rounded-sm">
       <NavigationMenuLink asChild>
         <Link href={href}>
           <div className="text-sm leading-6 text-foreground font-semibold">
