@@ -19,14 +19,14 @@ export const HeroSection = () => {
             type="button"
             size="lg"
             variant="outline"
-            className="text-base md:text-lg px-6 py-4 md:px-8 md:py-6 rounded-lg border-2"
+            className="text-base md:text-lg px-6 py-[10px] md:px-8 md:py-[16px] rounded-lg border-2"
           >
             Report found pet
           </Button>
           <Button
             type="button"
             size="lg"
-            className="text-base md:text-lg px-6 py-4 md:px-8 md:py-6 rounded-lg"
+            className="text-base md:text-lg px-6 py-[10px] md:px-8 md:py-[18px] rounded-lg"
           >
             Report lost pet
           </Button>

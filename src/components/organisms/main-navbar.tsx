@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { Suspense } from "react";
+import { Skeleton, Spinner } from "../atoms";
 import { AuthMenu } from "./auth-menu";
 import { MobileNavigation, Navigation } from "./navigation";
 
@@ -19,7 +21,9 @@ export const MainNavbar: React.FC = () => {
           <Navigation />
         </div>
         <div className="flex flex-1 justify-end">
-          <AuthMenu />
+          <Suspense fallback={<Skeleton className="size-8 rounded-full" />}>
+            <AuthMenu />
+          </Suspense>
         </div>
       </div>
     </nav>

@@ -1,10 +1,12 @@
 export { AnimalCard } from "./animal-card";
 export { AnimalSummaryCard } from "./animal-summary-card";
+export { AuthMenuDropdown } from "./auth-menu-dropdown";
 export { AuthMenuItems } from "./auth-menu-items";
 export { ImageMagnifier } from "./image-magnifier";
 export { ImageUploader } from "./image-uploader";
 export { LostAnimalCard } from "./lost-animal-card";
 export { PawHeader } from "./paw-header";
+export { SmartAlert } from "./smart-alert";
 export { Stepper } from "./stepper";
 export { StepperProvider, useStepper } from "./stepper-context";
 export { TransitionContainer } from "./transition-container";

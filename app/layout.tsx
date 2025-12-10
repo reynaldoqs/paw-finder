@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { Lato } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import "./globals.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MainFooter, MainNavbar } from "@/components";
+import Providers from "./providers";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -36,7 +38,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <MainNavbar />
-          {children}
+          <Providers>{children}</Providers>
           <MainFooter />
         </ThemeProvider>
       </body>

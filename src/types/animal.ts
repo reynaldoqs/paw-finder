@@ -5,10 +5,10 @@ export const animalSchema = z.object({
   id: z.string(),
   name: z.string(),
   specie: z.enum(species),
-  breed: z.string().optional(),
+  breed: z.string().optional().nullable(),
   color: z.string(),
-  description: z.string().min(5).max(100),
-  location: z.string().min(5).max(100),
+  description: z.string().min(5).max(1000),
+  location: z.string().min(5).max(300),
   coords: z
     .object({
       lat: z.number(),
@@ -18,7 +18,7 @@ export const animalSchema = z.object({
   imageUrl: z.string(),
   userId: z.string(),
   createdAt: z.string(),
-  lostDate: z.string().optional(),
+  lostDate: z.string().optional().nullable(),
   status: z.enum(animalStatus),
   contactNumber: z.string().min(1).max(20),
 });

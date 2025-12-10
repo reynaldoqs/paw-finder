@@ -21,17 +21,36 @@ export const ImageMagnifier: React.FC<ImageMagnifierProps> = ({
   circleRadius = 50,
   easing = 0.15,
 }) => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [smoothPosition, setSmoothPosition] = useState({ x: 0, y: 0 });
+  const [mousePosition, setMousePosition] = useState({
+    x: width / 2,
+    y: height / 2,
+  });
+  const [smoothPosition, setSmoothPosition] = useState({
+    x: width / 2,
+    y: height / 2,
+  });
   const animationFrameRef = useRef<number | undefined>(undefined);
   const imageContainerRef = useRef<HTMLDivElement>(null);
 
   const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
     if (!imageContainerRef.current) return;
     const rect = imageContainerRef.current.getBoundingClientRect();
+
+    const rawX = e.clientX - rect.left;
+    const rawY = e.clientY - rect.top;
+
+    const clampedX = Math.max(
+      circleRadius,
+      Math.min(rawX, width - circleRadius)
+    );
+    const clampedY = Math.max(
+      circleRadius,
+      Math.min(rawY, height - circleRadius)
+    );
+
     setMousePosition({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
+      x: clampedX,
+      y: clampedY,
     });
   };
 
@@ -69,10 +88,9 @@ export const ImageMagnifier: React.FC<ImageMagnifierProps> = ({
         <Image
           src={src}
           alt={alt}
-          objectFit="contain"
           width={width}
           height={height}
-          className="blur-md"
+          className="blur-md object-contain"
         />
         <div
           className="absolute inset-0 overflow-hidden"
@@ -83,9 +101,9 @@ export const ImageMagnifier: React.FC<ImageMagnifierProps> = ({
           <Image
             src={src}
             alt={alt}
-            objectFit="contain"
             width={width}
             height={height}
+            className="object-contain"
           />
         </div>
         <div

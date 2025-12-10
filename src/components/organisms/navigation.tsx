@@ -31,17 +31,14 @@ export const Navigation: React.FC<NavigationProps> = ({ className }) => {
           </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Pets</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid gap-2 p-3 sm:w-[210px] md:w-[310px]">
-              <ListItem title="Lost pets" href="/pets/lost">
-                List of lost pets
-              </ListItem>
-              <ListItem title="Found pets" href="/pets/found">
-                List of found pets
-              </ListItem>
-            </ul>
-          </NavigationMenuContent>
+          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+            <Link href="/pets/lost">Lost</Link>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+            <Link href="/pets/found">Found</Link>
+          </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuTrigger>Actions</NavigationMenuTrigger>

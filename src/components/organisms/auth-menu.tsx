@@ -1,17 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-  Button,
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../atoms";
-import { AuthMenuItems } from "../molecules";
+import { Button } from "../atoms";
+import { AuthMenuDropdown } from "../molecules/auth-menu-dropdown";
 
 export const AuthMenu = async () => {
   const supabase = await createClient();
@@ -21,19 +11,7 @@ export const AuthMenu = async () => {
   const user = data?.claims;
 
   return user ? (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Avatar className="cursor-pointer">
-          <AvatarImage src={""} alt={""} />
-          <AvatarFallback>ER</AvatarFallback>
-        </Avatar>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="p-3">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <AuthMenuItems />
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <AuthMenuDropdown />
   ) : (
     <div className="flex gap-2">
       <Button asChild variant="ghost">

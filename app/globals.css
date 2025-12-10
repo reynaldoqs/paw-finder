@@ -73,6 +73,7 @@
     @apply border-border;
   }
   body {
+    scrollbar-width: none;
     @apply bg-beige-low text-foreground;
   }
 }
