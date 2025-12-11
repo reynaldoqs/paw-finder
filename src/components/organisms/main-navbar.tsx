@@ -21,7 +21,7 @@ export const MainNavbar: React.FC = () => {
           <Navigation />
         </div>
         <div className="flex flex-1 justify-end">
-          <Suspense fallback={<Skeleton className="size-8 rounded-full" />}>
+          <Suspense fallback={<Skeleton className="size-10 rounded-full" />}>
             <AuthMenu />
           </Suspense>
         </div>

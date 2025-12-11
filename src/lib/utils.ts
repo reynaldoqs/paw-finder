@@ -38,3 +38,6 @@ export const objectToFormData = (object: Record<string, unknown>) => {
 };
 
 export const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
+
+export const sizedArray = (size: number) =>
+  Array.from({ length: size }, (_, index) => `item ${index + 1}`);

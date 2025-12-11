@@ -4,4 +4,4 @@ export { LostAnimalSpeciesForm } from "./lost-animal-species-form";
 export { LostReportContent } from "./lost-report-content";
 export { MainFooter } from "./main-footer";
 export { MainNavbar } from "./main-navbar";
-export { PromotedSection } from "./promoted-section";
+export { PromotedSection, PromotedSectionSkeleton } from "./promoted-section";

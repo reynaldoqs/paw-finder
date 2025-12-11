@@ -6,6 +6,7 @@ export { ImageMagnifier } from "./image-magnifier";
 export { ImageUploader } from "./image-uploader";
 export { LostAnimalCard } from "./lost-animal-card";
 export { PawHeader } from "./paw-header";
+export { PetCard, PetCardSkeleton } from "./pet-card";
 export { SmartAlert } from "./smart-alert";
 export { Stepper } from "./stepper";
 export { StepperProvider, useStepper } from "./stepper-context";

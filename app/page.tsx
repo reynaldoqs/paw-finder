@@ -1,12 +1,12 @@
 import { Suspense } from "react";
-import { PromotedSection } from "@/components";
+import { PromotedSection, PromotedSectionSkeleton } from "@/components";
 import { HeroSection } from "@/components/organisms/hero-section";
 
 export default function Home() {
   return (
-    <main className="flex flex-col min-h-screen">
+    <main className="flex flex-col justify-between h-full py-2 md:py-4">
       <HeroSection />
-      <Suspense fallback={<div>loading</div>}>
+      <Suspense fallback={<PromotedSectionSkeleton />}>
         <PromotedSection />
       </Suspense>
     </main>

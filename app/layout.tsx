@@ -30,16 +30,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${lato.className} antialiased min-h-screen w-full`}>
+      <body className={`${lato.className} antialiased h-screen w-full`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <MainNavbar />
-          <Providers>{children}</Providers>
-          <MainFooter />
+          <div className="h-[100dvh] grid grid-rows-[auto_1fr]">
+            <MainNavbar />
+            <div className="overflow-auto h-full">
+              <Providers>{children}</Providers>
+            </div>
+          </div>
         </ThemeProvider>
       </body>
     </html>

@@ -33,7 +33,7 @@ export const HeroSection = () => {
         </div>
       </div>
       <ImageMagnifier
-        src="/images/image2.png"
+        src="/images/pets.webp"
         alt="Paw Icon"
         width={600}
         height={320}
