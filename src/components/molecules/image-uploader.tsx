@@ -52,11 +52,11 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
             <img
               src={imageList[0]["data_url"]}
               alt="pet"
-              className="w-full h-full rounded-lg max-h-96 object-cover bg-muted"
+              className="w-full h-[300px] rounded-lg object-cover bg-muted"
             />
           ) : (
             <button
-              className="p-2 min-h-40 h-full bg-beige-medium flex items-center justify-center rounded-lg"
+              className="p-2 w-full h-[300px] bg-beige-medium flex items-center justify-center rounded-lg"
               style={isDragging ? { color: "red" } : undefined}
               onClick={onImageUpload}
               {...dragProps}

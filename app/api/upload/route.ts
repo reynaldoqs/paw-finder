@@ -24,9 +24,10 @@ export async function POST(request: NextRequest) {
 
     // Get the form data
     const formData = await request.formData();
-    const file = formData.get("image") as File;
+    console.log("formData", formData);
+    const image = formData.get("imageFile") as File;
 
-    if (!file) {
+    if (!image) {
       return NextResponse.json(
         { error: "No image file provided" },
         { status: 400 }
@@ -41,7 +42,9 @@ export async function POST(request: NextRequest) {
       "image/webp",
       "image/gif",
     ];
-    if (!validImageTypes.includes(file.type)) {
+
+    console.log("file", image.type);
+    if (!validImageTypes.includes(image.type)) {
       return NextResponse.json(
         {
           error: "Invalid file type. Only JPEG, PNG, WebP, and GIF are allowed",
@@ -50,23 +53,18 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const imageFile = formData.get("image") as File;
-    const name = formData.get("name") as string;
-    const type = formData.get("type") as "lost" | "found";
-
     // 1️⃣ Upload image to Supabase Storage
 
-    const location = `${crypto.randomUUID()}.jpg`;
-    console.log("location", location);
+    const imageUuid = `${crypto.randomUUID()}.jpg`;
 
     const { data: uploadData, error: uploadError } = await supabase.storage
       .from("animals")
-      .upload(location, imageFile, {
+      .upload(imageUuid, image, {
         // cacheControl: "3600",
         // upsert: false,
       });
 
-    console.log("uploadData 1111:", uploadError);
+    console.log("uploadError:", uploadError);
 
     if (uploadError)
       return NextResponse.json({ error: uploadError.message }, { status: 500 });
@@ -95,23 +93,34 @@ export async function POST(request: NextRequest) {
       ],
     });
 
-    const description = response.choices[0].message.content || "";
+    const generatedDescription = response.choices[0].message.content || "";
 
-    if (!description) {
+    if (!generatedDescription) {
       return NextResponse.json(
-        { error: "Failed to generate description" },
+        { error: "Failed to generate embedding" },
         { status: 500 }
       );
     }
 
     const embedding = await openaiClient.embeddings.create({
       model: "text-embedding-3-large",
-      input: description,
+      input: generatedDescription,
     });
 
+    const lostAnimalData = {
+      name: formData.get("name") as string,
+      specie: formData.get("specie") as string,
+      breed: formData.get("breed") as string,
+      color: formData.get("color") as string,
+      description: formData.get("description") as string,
+      location: formData.get("location") as string,
+      contact_number: formData.get("contactNumber") as string,
+      lost_date: formData.get("lostDate") as string,
+    };
+
     const { data: animal } = await supabase
-      .from("animals")
-      .insert([{ name, description, type, image_url }])
+      .from("lost_animals")
+      .insert([{ ...lostAnimalData, image_url }])
       .select()
       .single();
 
