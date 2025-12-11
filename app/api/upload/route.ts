@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 import { createClient } from "@/lib/supabase/server";
+import { type Animal, animalFormSchema, type ResponseBody } from "@/types";
 
 const openaiClient = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -12,7 +13,6 @@ export async function POST(request: NextRequest) {
   try {
     const supabase = await createClient();
 
-    // Check if user is authenticated
     const {
       data: { user },
       error: authError,
@@ -22,41 +22,35 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Get the form data
     const formData = await request.formData();
-    console.log("formData", formData);
-    const image = formData.get("imageFile") as File;
+    console.log("formData:", formData);
+    const formDataObject = {
+      name: formData.get("name"),
+      specie: formData.get("specie"),
+      breed: formData.get("breed") || undefined,
+      color: formData.get("color"),
+      description: formData.get("description"),
+      location: formData.get("location"),
+      contactNumber: formData.get("contactNumber"),
+      lostDate: formData.get("lostDate") || undefined,
+      imageFile: formData.get("imageFile"),
+    };
 
-    if (!image) {
+    const validationResult = animalFormSchema.safeParse(formDataObject);
+
+    if (!validationResult.success) {
+      const errors = validationResult.error.flatten().fieldErrors;
+      console.log("errors:", errors);
       return NextResponse.json(
-        { error: "No image file provided" },
+        { error: "Validation failed", errors },
         { status: 400 }
       );
     }
 
-    // Validate file type
-    const validImageTypes = [
-      "image/jpeg",
-      "image/jpg",
-      "image/png",
-      "image/webp",
-      "image/gif",
-    ];
-
-    console.log("file", image.type);
-    if (!validImageTypes.includes(image.type)) {
-      return NextResponse.json(
-        {
-          error: "Invalid file type. Only JPEG, PNG, WebP, and GIF are allowed",
-        },
-        { status: 400 }
-      );
-    }
-
-    // 1️⃣ Upload image to Supabase Storage
+    const validatedData = validationResult.data;
+    const image = validatedData.imageFile;
 
     const imageUuid = `${crypto.randomUUID()}.jpg`;
-
     const { data: uploadData, error: uploadError } = await supabase.storage
       .from("animals")
       .upload(imageUuid, image, {
@@ -64,14 +58,11 @@ export async function POST(request: NextRequest) {
         // upsert: false,
       });
 
-    console.log("uploadError:", uploadError);
-
     if (uploadError)
       return NextResponse.json({ error: uploadError.message }, { status: 500 });
 
     const image_url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/animals/${uploadData.path}`;
 
-    // generate description using OpenAI
     const response = await openaiClient.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
@@ -93,13 +84,13 @@ export async function POST(request: NextRequest) {
       ],
     });
 
-    const generatedDescription = response.choices[0].message.content || "";
+    let generatedDescription = response.choices[0].message.content || "";
 
     if (!generatedDescription) {
-      return NextResponse.json(
-        { error: "Failed to generate embedding" },
-        { status: 500 }
+      console.error(
+        "Failed to generate description, using specie + color instead"
       );
+      generatedDescription = `${validatedData.specie} ${validatedData.color}`;
     }
 
     const embedding = await openaiClient.embeddings.create({
@@ -107,20 +98,17 @@ export async function POST(request: NextRequest) {
       input: generatedDescription,
     });
 
-    const lostAnimalData = {
-      name: formData.get("name") as string,
-      specie: formData.get("specie") as string,
-      breed: formData.get("breed") as string,
-      color: formData.get("color") as string,
-      description: formData.get("description") as string,
-      location: formData.get("location") as string,
-      contact_number: formData.get("contactNumber") as string,
-      lost_date: formData.get("lostDate") as string,
-    };
+    const {
+      // biome-ignore lint/correctness/noUnusedVariables: a way to not use delete
+      imageFile,
+      lostDate: lost_date,
+      contactNumber: contact_number,
+      ...rest
+    } = validatedData;
 
     const { data: animal } = await supabase
-      .from("lost_animals")
-      .insert([{ ...lostAnimalData, image_url }])
+      .from("lost_animal")
+      .insert([{ ...rest, lost_date, contact_number, image_url }])
       .select()
       .single();
 
@@ -135,14 +123,12 @@ export async function POST(request: NextRequest) {
       .from("animal_embeddings")
       .insert([{ animal_id: animal.id, embedding }]);
 
-    return NextResponse.json(
-      {
-        success: true,
-        animal: animal,
-        url: image_url,
-      },
-      { status: 200 }
-    );
+    const res: ResponseBody<Animal> = {
+      success: true,
+      data: animal,
+    };
+
+    return NextResponse.json(res, { status: 200 });
   } catch (error) {
     console.error("Unexpected error:", error);
     return NextResponse.json(

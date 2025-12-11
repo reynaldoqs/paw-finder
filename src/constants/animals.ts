@@ -45,3 +45,8 @@ export const speciesIcons = {
   hamster: "🐹",
   other: "🐾",
 } as const;
+
+export const imageUploadConfig = {
+  maxUploadSize: 5 * 1024 * 1024,
+  acceptedImageTypes: ["image/jpeg", "image/jpg", "image/png", "image/webp"],
+};

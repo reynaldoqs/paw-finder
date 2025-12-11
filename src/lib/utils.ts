@@ -31,7 +31,18 @@ export const objectToFormData = (object: Record<string, unknown>) => {
   const formData = new FormData();
 
   Object.entries(object).forEach(([key, value]) => {
-    formData.append(key, value as string);
+    if (key === "imageFile" && Array.isArray(value) && value.length > 0) {
+      const imageData = value[0];
+      if (imageData.file) {
+        formData.append(key, imageData.file);
+      }
+    } else if (value instanceof File) {
+      formData.append(key, value);
+    } else if (value instanceof Date) {
+      formData.append(key, value.toISOString());
+    } else if (value !== null && value !== undefined) {
+      formData.append(key, String(value));
+    }
   });
 
   return formData;

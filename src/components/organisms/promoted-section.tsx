@@ -34,7 +34,7 @@ export const PromotedSectionSkeleton = () => {
         Find lost pets and help them find their way home.
       </p>
       <div className="flex flex-wrap justify-center gap-4 mt-4">
-        {sizedArray(1).map((item) => (
+        {sizedArray(4).map((item) => (
           <PetCardSkeleton key={item} />
         ))}
       </div>
