@@ -2,8 +2,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import type { z } from "zod/v3";
-import { species, speciesColors } from "@/constants";
-import { cn } from "@/lib/utils";
+import { species } from "@/constants";
+
 import { animalFormSchema } from "@/types";
 import { AnimalButton, Button, FieldGroup } from "../atoms";
 import { useStepper } from "../molecules/stepper-context";
@@ -20,14 +20,14 @@ export const LostAnimalSpeciesForm: React.FC = () => {
       resolver: zodResolver(speciesFormSchema),
       mode: "onChange",
       defaultValues: {
-        specie: formData.specie || null,
+        specie: formData.specie || undefined,
       },
     }
   );
 
   const selectedSpecie = watch("specie");
 
-  const onFormSubmit = (data: SpeciesFormData) => {
+  const onFormSubmit = (data: any) => {
     updateFormData(data);
     next();
   };

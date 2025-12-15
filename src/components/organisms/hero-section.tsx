@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Button } from "../atoms";
 import { ImageMagnifier } from "../molecules";
 
@@ -16,19 +17,19 @@ export const HeroSection = () => {
         </div>
         <div className="px-4 md:px-6 flex flex-col sm:flex-row gap-3 md:gap-6">
           <Button
-            type="button"
+            asChild
             size="lg"
             variant="outline"
             className="text-base md:text-lg px-6 py-[10px] md:px-8 md:py-[16px] rounded-lg border-2"
           >
-            Report found pet
+            <Link href="/animals/found">Report found pet</Link>
           </Button>
           <Button
-            type="button"
+            asChild
             size="lg"
             className="text-base md:text-lg px-6 py-[10px] md:px-8 md:py-[18px] rounded-lg"
           >
-            Report lost pet
+            <Link href="/animals/lost">Report lost pet</Link>
           </Button>
         </div>
       </div>
