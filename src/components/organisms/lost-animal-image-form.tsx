@@ -12,11 +12,14 @@ const imageFormSchema = animalFormSchema.pick({ imageFile: true });
 export const LostAnimalImageForm: React.FC = () => {
   const { next, formData, updateFormData } = useStepper();
 
-  const { control, handleSubmit, formState } = useForm({
+  const { control, handleSubmit, formState, getValues } = useForm({
     resolver: zodResolver(imageFormSchema),
     mode: "onChange",
-    defaultValues: { imageFile: (formData.imageFile as any) || [] },
+    defaultValues: { imageFile: formData.imageFile as any },
   });
+
+  console.log("formState errors:", formState.errors);
+  console.log("formState values:", getValues());
 
   const onFormSubmit = (data: any) => {
     updateFormData(data);
@@ -33,11 +36,13 @@ export const LostAnimalImageForm: React.FC = () => {
           name="imageFile"
           control={control}
           render={({ field }) => {
-            const value = (field.value as ImageListType | undefined) ?? [];
             return (
               <ImageUploader
-                images={value}
-                onChange={(newImages) => field.onChange(newImages)}
+                images={(field.value as ImageListType | undefined) ?? []}
+                onChange={(newImages) => {
+                  console.log("newImages", newImages);
+                  field.onChange(newImages as ImageListType);
+                }}
               />
             );
           }}

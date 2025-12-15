@@ -1,3 +1,4 @@
+import type { ImageListType } from "react-images-uploading";
 import { z } from "zod/v3";
 import { animalStatus, imageUploadConfig, species } from "../constants";
 
@@ -41,16 +42,25 @@ export const animalFormSchema = animalSchema
   })
   .extend({
     // specie: z.enum(species).nullable(),
-    imageFile: z
-      .instanceof(File)
-      .refine(
-        (file) => file.size <= imageUploadConfig.maxUploadSize,
-        `File size must be less than 5MB.`
-      )
-      .refine(
-        (file) => imageUploadConfig.acceptedImageTypes.includes(file.type),
-        "Only .jpg, .jpeg, .png, and .webp formats are supported."
-      ),
+    imageFile: z.custom<ImageListType>(),
+    // .refine(
+    //   (list) =>
+    //     Array.isArray(list) &&
+    //     list.length > 0 &&
+    //     list[0]?.file instanceof File,
+    //   "Please select an image."
+    // ),
+    // .refine((list) => {
+    //   if (!list) return false;
+    //   console.log("list:", list);
+    //   const file = (list as ImageListType)[0]?.file as File;
+    //   return file.size <= imageUploadConfig.maxUploadSize;
+    // }, `File size must be less than 5MB.`)
+    // .refine((list) => {
+    //   if (!list) return false;
+    //   const file = (list as ImageListType)[0]?.file as File;
+    //   return imageUploadConfig.acceptedImageTypes.includes(file.type);
+    // }, "Only .jpg, .jpeg, .png, and .webp formats are supported."),
     // lostDate: z.date().nullable(),
     status: z.string().default("active"),
   });

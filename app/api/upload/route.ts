@@ -23,7 +23,6 @@ export async function POST(request: NextRequest) {
     }
 
     const formData = await request.formData();
-    console.log("formData:", formData);
     const formDataObject = {
       name: formData.get("name"),
       specie: formData.get("specie"),
@@ -48,7 +47,7 @@ export async function POST(request: NextRequest) {
     }
 
     const validatedData = validationResult.data;
-    const image = validatedData.imageFile;
+    const image = validatedData.imageFile as any;
 
     const imageUuid = `${crypto.randomUUID()}.jpg`;
     const { data: uploadData, error: uploadError } = await supabase.storage
