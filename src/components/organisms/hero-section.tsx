@@ -16,21 +16,19 @@ export const HeroSection = () => {
           </p>
         </div>
         <div className="px-4 md:px-6 flex flex-col sm:flex-row gap-3 md:gap-6">
-          <Button
-            asChild
-            size="lg"
-            variant="outline"
+          <Link
+            href="/animals/found"
             className="text-base md:text-lg px-6 py-[10px] md:px-8 md:py-[16px] rounded-lg border-2"
           >
-            <Link href="/animals/found">Report found pet</Link>
-          </Button>
-          <Button
-            asChild
-            size="lg"
+            Report found pet
+          </Link>
+
+          <Link
+            href="/animals/lost"
             className="text-base md:text-lg px-6 py-[10px] md:px-8 md:py-[18px] rounded-lg"
           >
-            <Link href="/animals/lost">Report lost pet</Link>
-          </Button>
+            Report lost pet
+          </Link>
         </div>
       </div>
       <ImageMagnifier
