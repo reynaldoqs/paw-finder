@@ -35,11 +35,11 @@ export const LostAnimalLocationForm: React.FC = () => {
     defaultValues: {
       location: formData.location || "",
       contactNumber: formData.contactNumber || "",
-      lostDate: formData.lostDate || undefined,
+      lostDate: (formData.lostDate as any) || undefined,
     },
   });
 
-  const onFormSubmit = (data: LocationFormData) => {
+  const onFormSubmit = (data: any) => {
     updateFormData(data);
     next();
   };
