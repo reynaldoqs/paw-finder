@@ -14,12 +14,9 @@ export const AuthMenu = async () => {
     <AuthMenuDropdown />
   ) : (
     <div className="flex gap-2">
-      <Button asChild variant="ghost">
-        <Link href="/auth/sign-up">Sign up</Link>
-      </Button>
-      <Button asChild>
-        <Link href="/auth/login">Sign in</Link>
-      </Button>
+      <Link href="/auth/sign-up">Sign up</Link>
+
+      <Link href="/auth/login">Sign in</Link>
     </div>
   );
 };
