@@ -27,11 +27,8 @@ export const LostAnimalCard = React.forwardRef<
       return;
     }
 
-    const url = URL.createObjectURL(imageFile);
-    setImageUrl(url);
-
     return () => {
-      URL.revokeObjectURL(url);
+      URL.revokeObjectURL("");
     };
   }, [imageFile]);
 
@@ -67,9 +64,7 @@ export const LostAnimalCard = React.forwardRef<
               <span className="text-base font-semibold">
                 {paw.name || "Unnamed friend"}
               </span>
-              <span className="rounded-full bg-orange-100 px-2 py-0.5 text-xs font-medium uppercase tracking-wide text-orange-700">
-                {paw.species}
-              </span>
+              <span className="rounded-full bg-orange-100 px-2 py-0.5 text-xs font-medium uppercase tracking-wide text-orange-700"></span>
               {paw.breed && (
                 <span className="text-xs text-muted-foreground">
                   {paw.breed}
@@ -93,7 +88,6 @@ export const LostAnimalCard = React.forwardRef<
               {paw.lostDate && (
                 <div>
                   <span className="font-medium">Lost on:</span>{" "}
-                  {paw.lostDate.toLocaleDateString()}
                 </div>
               )}
               <div>
