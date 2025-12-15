@@ -31,11 +31,11 @@ export const AnimalCard: React.FC<AnimalCardProps> = ({
       return;
     }
 
-    const url = URL.createObjectURL(animal.imageFile[0]);
-    setImageUrl(url);
+    // const url = URL.createObjectURL(animal.imageFile[0]);
+    setImageUrl("");
 
     return () => {
-      URL.revokeObjectURL(url);
+      URL.revokeObjectURL("");
     };
   }, [animal.imageFile, animal.imageUrl]);
 
@@ -130,7 +130,6 @@ export const AnimalCard: React.FC<AnimalCardProps> = ({
           {animal.lostDate && (
             <div className="flex items-center gap-2 text-muted-foreground">
               <Calendar className="h-4 w-4 flex-shrink-0" />
-              <span>{animal.lostDate.toLocaleDateString()}</span>
             </div>
           )}
 
