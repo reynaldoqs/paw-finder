@@ -22,7 +22,7 @@ export const TransitionContainer: React.FC<TransitionContainerProps> = ({
         "fixed transition-all duration-500 ease-in-out z-50",
         isExpanded
           ? `top-[${NAVBAR_HEIGHT}px] left-0 right-0 h-[110px] w-full translate-x-0 translate-y-0 border-b border-b-foreground/10 backdrop-blur`
-          : `h-[580px] w-[480px] max-w-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border border-foreground/10 bg-beige-low rounded-2xl`,
+          : `h-[600px] w-[480px] max-w-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border border-foreground/10 bg-background rounded-2xl`,
         className
       )}
     >

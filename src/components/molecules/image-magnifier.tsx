@@ -1,6 +1,7 @@
 "use client";
 
-import { Search } from "lucide-react";
+import { SearchIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -135,7 +136,9 @@ export const ImageMagnifier: React.FC<ImageMagnifierProps> = ({
             top: `${smoothPosition.y - circleRadius}px`,
           }}
         >
-          <Search
+          <HugeiconsIcon
+            icon={SearchIcon}
+            strokeWidth={2}
             style={{
               width: `${circleRadius * 3}px`,
               height: `${circleRadius * 3}px`,

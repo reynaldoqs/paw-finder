@@ -24,8 +24,7 @@ const data = [
   {
     id: "info-form",
     title: "Pet Details",
-    description:
-      "Provide the pet's name, characteristics, and any important information to assist in the search.",
+    description: "Provide the pet's details.",
     element: <LostAnimalInfoForm />,
   },
   {

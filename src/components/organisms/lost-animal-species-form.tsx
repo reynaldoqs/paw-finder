@@ -27,7 +27,7 @@ export const LostAnimalSpeciesForm: React.FC = () => {
 
   const selectedSpecie = watch("specie");
 
-  const onFormSubmit = (data: any) => {
+  const onFormSubmit = (data: SpeciesFormData) => {
     updateFormData(data);
     next();
   };

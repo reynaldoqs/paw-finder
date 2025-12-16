@@ -15,7 +15,7 @@ import { AuthMenuItems } from "./auth-menu-items";
 export const AuthMenuDropdown = () => {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger>
         <Avatar className="cursor-pointer">
           <AvatarImage src={""} alt={""} />
           <AvatarFallback>ER</AvatarFallback>

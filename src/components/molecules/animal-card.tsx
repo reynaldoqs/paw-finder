@@ -1,6 +1,11 @@
 "use client";
 
-import { Calendar, MapPin, Phone } from "lucide-react";
+import {
+  Calendar03Icon,
+  Call02Icon,
+  Location01Icon,
+} from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
@@ -122,20 +127,32 @@ export const AnimalCard: React.FC<AnimalCardProps> = ({
         <div className="space-y-2 text-sm">
           {animal.location && (
             <div className="flex items-start gap-2 text-muted-foreground">
-              <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
+              <HugeiconsIcon
+                icon={Location01Icon}
+                strokeWidth={2}
+                className="h-4 w-4 mt-0.5 flex-shrink-0"
+              />
               <span className="line-clamp-1">{animal.location}</span>
             </div>
           )}
 
           {animal.lostDate && (
             <div className="flex items-center gap-2 text-muted-foreground">
-              <Calendar className="h-4 w-4 flex-shrink-0" />
+              <HugeiconsIcon
+                icon={Calendar03Icon}
+                strokeWidth={2}
+                className="h-4 w-4 flex-shrink-0"
+              />
             </div>
           )}
 
           {animal.contactNumber && (
             <div className="flex items-center gap-2 text-muted-foreground">
-              <Phone className="h-4 w-4 flex-shrink-0" />
+              <HugeiconsIcon
+                icon={Call02Icon}
+                strokeWidth={2}
+                className="h-4 w-4 flex-shrink-0"
+              />
               <span>{animal.contactNumber}</span>
             </div>
           )}

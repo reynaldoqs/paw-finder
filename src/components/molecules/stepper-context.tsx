@@ -7,15 +7,12 @@ type StepperContextValue = {
   next: () => void;
   prev: () => void;
   goToStep: (step: number) => void;
-
   currentStep: number;
   totalSteps: number;
   isFirst: boolean;
   isLast: boolean;
-
   formData: Partial<AnimalForm>;
   updateFormData: (data: Partial<AnimalForm>) => void;
-
   complete: () => void;
   completed: boolean;
   reset: () => void;

@@ -3,6 +3,8 @@
 		["([\"'`][^\"'`]*.*?[\"'`])", "[\"'`]([^\"'`]*).*?[\"'`]"]
 	],
 	"cSpell.words": [
+		"cmdk",
+		"hugeicons",
 		"lineicons",
 		"lineiconshq",
 		"shadcn",

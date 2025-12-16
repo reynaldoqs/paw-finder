@@ -51,7 +51,7 @@ export const Stepper: React.FC<StepperProps> = ({ data, className }) => {
 
         <div
           key={currentStep}
-          className="flex-grow flex flex-col motion-preset-fade-lg"
+          className="grow flex flex-col motion-preset-fade-lg"
         >
           {data[currentStep]?.element}
         </div>

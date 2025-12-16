@@ -2,7 +2,7 @@ import camelcaseKeys from "camelcase-keys";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import type z from "zod/v3";
-import type { ResponseBody } from "@/types";
+import type { AnimalAI, AnimalForm, ResponseBody } from "@/types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -46,6 +46,52 @@ export const objectToFormData = (object: Record<string, unknown>) => {
   });
 
   return formData;
+};
+
+export const animalAItoAnimalForm = (
+  animalAI: AnimalAI
+): Partial<AnimalForm> => {
+  const {
+    specie,
+    breed,
+    color,
+    size,
+    estimatedAge,
+    imageBase64,
+    embeddingDescription,
+  } = animalAI;
+
+  const animalForm = {
+    specie,
+    breed,
+    color,
+    size,
+    estimatedAge,
+    imageBase64,
+    embeddingDescription,
+    description: animalAI.distinctiveFeatures.join(", "),
+  };
+
+  return animalForm;
+};
+
+export const postData = async <T = unknown>(
+  url: string,
+  data: unknown
+): Promise<T> => {
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to post data: ${response.statusText}`);
+  }
+
+  return response.json();
 };
 
 export const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));

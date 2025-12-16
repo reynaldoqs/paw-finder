@@ -1,16 +1,31 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
-import { z } from "zod/v3";
-import { Button, Field, FieldDescription, FieldGroup, Input } from "../atoms";
+import type { z } from "zod/v3";
+import { estimatedAges, sizes } from "@/constants";
+import { animalFormSchema } from "@/types";
+import {
+  Button,
+  Field,
+  FieldGroup,
+  Input,
+  Label,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../atoms";
 import { Textarea } from "../atoms/textarea";
 import { useStepper } from "../molecules/stepper-context";
 
-const infoFormSchema = z.object({
-  name: z.string().min(1),
-  breed: z.string().optional(),
-  color: z.string().min(1),
-  description: z.string().min(5),
+const infoFormSchema = animalFormSchema.pick({
+  name: true,
+  breed: true,
+  color: true,
+  size: true,
+  estimatedAge: true,
+  description: true,
 });
 
 type InfoFormData = z.infer<typeof infoFormSchema>;
@@ -25,7 +40,9 @@ export const LostAnimalInfoForm: React.FC = () => {
       name: formData.name || "",
       breed: formData.breed || "",
       color: formData.color || "",
-      description: formData.description || "",
+      size: formData.size,
+      estimatedAge: formData.estimatedAge,
+      description: formData.description,
     },
   });
 
@@ -47,9 +64,9 @@ export const LostAnimalInfoForm: React.FC = () => {
               name="name"
               render={({ field, fieldState }) => (
                 <Field aria-invalid={fieldState.invalid}>
-                  <FieldDescription>
-                    What is your pet's name? (required)
-                  </FieldDescription>
+                  <Label htmlFor="name" className="font-bold">
+                    Name *
+                  </Label>
                   <Input
                     {...field}
                     id="name"
@@ -67,9 +84,9 @@ export const LostAnimalInfoForm: React.FC = () => {
               name="color"
               render={({ field, fieldState }) => (
                 <Field aria-invalid={fieldState.invalid}>
-                  <FieldDescription>
-                    What color is your pet? (required)
-                  </FieldDescription>
+                  <Label htmlFor="color" className="font-bold">
+                    Color *
+                  </Label>
                   <Input
                     {...field}
                     id="color"
@@ -87,16 +104,65 @@ export const LostAnimalInfoForm: React.FC = () => {
               name="breed"
               render={({ field, fieldState }) => (
                 <Field aria-invalid={fieldState.invalid}>
-                  <FieldDescription>
-                    What breed is your pet? (required)
-                  </FieldDescription>
+                  <Label htmlFor="breed" className="font-bold">
+                    Breed
+                  </Label>
                   <Input
                     {...field}
+                    value={field.value ?? ""}
                     id="breed"
                     aria-invalid={fieldState.invalid}
                     placeholder="e.g. Labrador Retriever"
                     autoComplete="off"
                   />
+                </Field>
+              )}
+            />
+          </div>
+
+          <div className="col-span-2">
+            <Controller
+              control={control}
+              name="size"
+              render={({ field, fieldState }) => (
+                <Field aria-invalid={fieldState.invalid}>
+                  <Label className="font-bold">Size *</Label>
+                  <Select value={field.value} onValueChange={field.onChange}>
+                    <SelectTrigger aria-invalid={fieldState.invalid}>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {sizes.map((size) => (
+                        <SelectItem key={size} value={size}>
+                          {size.charAt(0).toUpperCase() + size.slice(1)}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </Field>
+              )}
+            />
+          </div>
+
+          <div className="col-span-2">
+            <Controller
+              control={control}
+              name="estimatedAge"
+              render={({ field, fieldState }) => (
+                <Field aria-invalid={fieldState.invalid}>
+                  <Label className="font-bold">Age *</Label>
+                  <Select value={field.value} onValueChange={field.onChange}>
+                    <SelectTrigger aria-invalid={fieldState.invalid}>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {estimatedAges.map((age) => (
+                        <SelectItem key={age} value={age}>
+                          {age.charAt(0).toUpperCase() + age.slice(1)}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </Field>
               )}
             />
@@ -108,16 +174,15 @@ export const LostAnimalInfoForm: React.FC = () => {
               name="description"
               render={({ field, fieldState }) => (
                 <Field aria-invalid={fieldState.invalid}>
-                  <FieldDescription>
-                    Describe the pet in detail. This will help others identify
-                    the pet. (required)
-                  </FieldDescription>
+                  <Label htmlFor="description" className="font-bold">
+                    Description *
+                  </Label>
                   <Textarea
                     {...field}
                     id="description"
                     aria-invalid={fieldState.invalid}
                     placeholder="e.g. Max is a friendly dog who loves to play with his toys."
-                    className="min-h-[120px]"
+                    className="min-h-[80px]"
                   />
                 </Field>
               )}

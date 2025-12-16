@@ -1,5 +1,6 @@
 "use client";
-import { CheckIcon, ChevronsUpDown } from "lucide-react";
+import { ArrowDown01Icon, Tick02Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import * as React from "react";
 import * as RPNInput from "react-phone-number-input";
 import flags from "react-phone-number-input/flags";
@@ -59,7 +60,7 @@ const InputComponent = React.forwardRef<HTMLInputElement, any>(
   ({ className, ...props }, ref) => (
     <input
       className={cn(
-        "rounded-e-lg rounded-s-none px-2 placeholder:text-sm text-sm bg-gray-400/10 outline-hidden outline-gray-400 outline-1 w-full",
+        "rounded-e-4xl rounded-s-none px-2 placeholder:text-sm text-sm bg-input/30 border border-input outline-hidden outline-gray-400 outline-1 w-full",
         className
       )}
       {...props}
@@ -93,17 +94,19 @@ const CountrySelect = ({
 
   return (
     <Popover>
-      <PopoverTrigger asChild>
+      <PopoverTrigger>
         <Button
           type="button"
           variant={"outline"}
           className={cn(
-            "flex gap-1 rounded-e-none bg-gray-400/20 rounded-s-lg px-3"
+            "flex gap-1 rounded-e-none bg-gray-400/20 rounded-s-4xl px-3"
           )}
           disabled={disabled}
         >
           <FlagComponent country={value} countryName={value} />
-          <ChevronsUpDown
+          <HugeiconsIcon
+            icon={ArrowDown01Icon}
+            strokeWidth={2}
             className={cn(
               "-mr-2 h-4 w-4 opacity-50",
               disabled ? "hidden" : "opacity-100"
@@ -136,7 +139,9 @@ const CountrySelect = ({
                           {`+${RPNInput.getCountryCallingCode(option.value)}`}
                         </span>
                       )}
-                      <CheckIcon
+                      <HugeiconsIcon
+                        icon={Tick02Icon}
+                        strokeWidth={2}
                         className={cn(
                           "ml-auto h-4 w-4",
                           option.value === value ? "opacity-100" : "opacity-0"

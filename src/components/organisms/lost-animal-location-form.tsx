@@ -5,14 +5,7 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod/v3";
 import { cn } from "@/lib/utils";
-import {
-  Button,
-  Field,
-  FieldDescription,
-  FieldGroup,
-  Input,
-  PhoneInput,
-} from "../atoms";
+import { Button, Field, FieldGroup, Input, Label, PhoneInput } from "../atoms";
 import { Calendar } from "../atoms/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "../atoms/popover";
 import { useStepper } from "../molecules/stepper-context";
@@ -57,9 +50,9 @@ export const LostAnimalLocationForm: React.FC = () => {
               name="location"
               render={({ field, fieldState }) => (
                 <Field aria-invalid={fieldState.invalid}>
-                  <FieldDescription>
-                    Enter the address or area where the pet was last seen.
-                  </FieldDescription>
+                  <Label htmlFor="location" className="font-bold">
+                    Location *
+                  </Label>
                   <Input
                     {...field}
                     id="location"
@@ -78,15 +71,16 @@ export const LostAnimalLocationForm: React.FC = () => {
               name="lostDate"
               render={({ field, fieldState }) => (
                 <Field aria-invalid={fieldState.invalid}>
-                  <FieldDescription>
-                    Date when the pet was lost.
-                  </FieldDescription>
+                  <Label htmlFor="lostDate" className="font-bold">
+                    Lost Date
+                  </Label>
                   <Popover open={isOpen} onOpenChange={setIsOpen}>
-                    <PopoverTrigger asChild>
+                    <PopoverTrigger aria-label="Select date">
                       <button
                         type="button"
+                        id="lostDate"
                         className={cn(
-                          "w-full px-3 py-2 rounded-lg text-left font-normal bg-gray-400/10 text-sm",
+                          "bg-input/30 border-input focus-visible:border-ring focus-visible:ring-ring/50 h-9 rounded-4xl border px-3 py-1 text-sm transition-colors w-full text-left outline-none",
                           !field.value && "text-muted-foreground"
                         )}
                       >
@@ -119,7 +113,9 @@ export const LostAnimalLocationForm: React.FC = () => {
               name="contactNumber"
               render={({ field, fieldState }) => (
                 <Field aria-invalid={fieldState.invalid}>
-                  <FieldDescription>Your phone number.</FieldDescription>
+                  <Label htmlFor="contactNumber" className="font-bold">
+                    Contact Number *
+                  </Label>
                   <PhoneInput
                     {...field}
                     id="contactNumber"

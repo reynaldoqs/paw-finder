@@ -15,6 +15,15 @@ export const animalStatus = [
   "archived",
 ] as const;
 
+export const sizes = ["small", "medium", "large"] as const;
+
+export const estimatedAges = [
+  "puppy/kitten",
+  "young",
+  "adult",
+  "senior",
+] as const;
+
 export const speciesColors: Record<(typeof species)[number], string> = {
   dog: "hover:bg-blue-500/10 hover:border-blue-500 data-[selected=true]:bg-blue-500/20 data-[selected=true]:border-blue-500",
   cat: "hover:bg-purple-500/10 hover:border-purple-500 data-[selected=true]:bg-purple-500/20 data-[selected=true]:border-purple-500",

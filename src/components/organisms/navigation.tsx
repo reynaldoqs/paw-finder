@@ -1,7 +1,7 @@
 "use client";
 
-import { faBarsStaggered } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Menu01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
 import type * as React from "react";
 import { useState } from "react";
@@ -24,21 +24,21 @@ type NavigationProps = {
 export const Navigation: React.FC<NavigationProps> = ({ className }) => {
   return (
     <NavigationMenu className={cn("hidden md:flex", className)}>
-      <NavigationMenuList className="flex-wrap">
+      <NavigationMenuList className="flex-wrap gap-1">
         <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <Link href="/">Home</Link>
-          </NavigationMenuLink>
+          <Link href="/" className={navigationMenuTriggerStyle()}>
+            Home
+          </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <Link href="/pets/lost">Lost</Link>
-          </NavigationMenuLink>
+          <Link href="/pets/lost" className={navigationMenuTriggerStyle()}>
+            Lost
+          </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <Link href="/pets/found">Found</Link>
-          </NavigationMenuLink>
+          <Link href="/pets/found" className={navigationMenuTriggerStyle()}>
+            Found
+          </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuTrigger>Actions</NavigationMenuTrigger>
@@ -76,7 +76,7 @@ export const MobileNavigation: React.FC<NavigationProps> = ({ className }) => {
           aria-label="Toggle mobile menu"
           aria-expanded={isOpen}
         >
-          <FontAwesomeIcon icon={faBarsStaggered} />
+          <HugeiconsIcon icon={Menu01Icon} strokeWidth={2} />
         </Button>
       </div>
 
@@ -107,7 +107,7 @@ const ListItem = ({
 }: React.ComponentPropsWithoutRef<"li"> & { href: string }) => {
   return (
     <li {...props} className="hover:bg-accent p-4 rounded-sm">
-      <NavigationMenuLink asChild>
+      <NavigationMenuLink>
         <Link href={href}>
           <div className="text-sm leading-6 text-foreground font-semibold">
             {title}

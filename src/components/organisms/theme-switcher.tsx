@@ -1,17 +1,20 @@
 "use client";
 
 import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-} from "@radix-ui/react-dropdown-menu";
-import { Laptop, Moon, Sun } from "lucide-react";
+  ComputerIcon,
+  Moon02Icon,
+  Sun03Icon,
+} from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import {
   Button,
+  DropdownMenu,
   DropdownMenuContent,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
+  DropdownMenuTrigger,
 } from "../atoms";
 
 const ThemeSwitcher = () => {
@@ -28,28 +31,35 @@ const ThemeSwitcher = () => {
   }
 
   const ICON_SIZE = 16;
+  const STROKE_WIDTH = 2;
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger>
         <Button variant="ghost" size={"sm"}>
           {theme === "light" ? (
-            <Sun
+            <HugeiconsIcon
               key="light"
-              size={ICON_SIZE}
+              icon={Sun03Icon}
+              strokeWidth={STROKE_WIDTH}
               className={"text-muted-foreground"}
+              style={{ width: ICON_SIZE, height: ICON_SIZE }}
             />
           ) : theme === "dark" ? (
-            <Moon
+            <HugeiconsIcon
               key="dark"
-              size={ICON_SIZE}
+              icon={Moon02Icon}
+              strokeWidth={STROKE_WIDTH}
               className={"text-muted-foreground"}
+              style={{ width: ICON_SIZE, height: ICON_SIZE }}
             />
           ) : (
-            <Laptop
+            <HugeiconsIcon
               key="system"
-              size={ICON_SIZE}
+              icon={ComputerIcon}
+              strokeWidth={STROKE_WIDTH}
               className={"text-muted-foreground"}
+              style={{ width: ICON_SIZE, height: ICON_SIZE }}
             />
           )}
         </Button>
@@ -60,15 +70,30 @@ const ThemeSwitcher = () => {
           onValueChange={(e) => setTheme(e)}
         >
           <DropdownMenuRadioItem className="flex gap-2" value="light">
-            <Sun size={ICON_SIZE} className="text-muted-foreground" />{" "}
+            <HugeiconsIcon
+              icon={Sun03Icon}
+              strokeWidth={STROKE_WIDTH}
+              className="text-muted-foreground"
+              style={{ width: ICON_SIZE, height: ICON_SIZE }}
+            />
             <span>Light</span>
           </DropdownMenuRadioItem>
           <DropdownMenuRadioItem className="flex gap-2" value="dark">
-            <Moon size={ICON_SIZE} className="text-muted-foreground" />{" "}
+            <HugeiconsIcon
+              icon={Moon02Icon}
+              strokeWidth={STROKE_WIDTH}
+              className="text-muted-foreground"
+              style={{ width: ICON_SIZE, height: ICON_SIZE }}
+            />
             <span>Dark</span>
           </DropdownMenuRadioItem>
           <DropdownMenuRadioItem className="flex gap-2" value="system">
-            <Laptop size={ICON_SIZE} className="text-muted-foreground" />{" "}
+            <HugeiconsIcon
+              icon={ComputerIcon}
+              strokeWidth={STROKE_WIDTH}
+              className="text-muted-foreground"
+              style={{ width: ICON_SIZE, height: ICON_SIZE }}
+            />
             <span>System</span>
           </DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>

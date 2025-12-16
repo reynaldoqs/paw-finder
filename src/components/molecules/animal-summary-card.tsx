@@ -20,8 +20,6 @@ export const AnimalSummaryCard: React.FC<AnimalSummaryCardProps> = ({
   className,
   actions,
 }) => {
-  const images = data.imageFile as unknown as ImageListType;
-
   return (
     <div
       className={cn(
@@ -37,10 +35,11 @@ export const AnimalSummaryCard: React.FC<AnimalSummaryCardProps> = ({
         )}
       >
         <div className="flex justify-between gap-4">
-          {images && (
+          {data.imageBase64 && (
             <div className="flex justify-center">
+              {/** biome-ignore lint/performance/noImgElement: it happens in FE is not necessary to validate use Image */}
               <img
-                src={images[0].data_url}
+                src={data.imageBase64}
                 alt={data.name || "Pet"}
                 className={cn(
                   "w-full  object-cover rounded-full border border-border",
@@ -91,6 +90,18 @@ export const AnimalSummaryCard: React.FC<AnimalSummaryCardProps> = ({
               <p className="text-sm text-foreground font-bold">Contact</p>
               <p className="text-sm mt-1 font-medium text-muted-foreground">
                 {data.contactNumber || "—"}
+              </p>
+            </div>
+            <div className="col-span-1">
+              <p className="text-sm text-foreground font-bold">Size</p>
+              <p className="text-sm mt-1 font-medium text-muted-foreground capitalize">
+                {data.size || "—"}
+              </p>
+            </div>
+            <div className="col-span-1">
+              <p className="text-sm text-foreground font-bold">Estimated Age</p>
+              <p className="text-sm mt-1 font-medium text-muted-foreground capitalize">
+                {data.estimatedAge || "—"}
               </p>
             </div>
           </div>
