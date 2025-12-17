@@ -8,9 +8,9 @@ import {
   species,
 } from "../constants";
 
+// BASE ANIMAL SCHEMA
 export const animalSchema = z.object({
   id: z.string(),
-  name: z.string().min(1, "Name is required"),
   specie: z.enum(species, { message: "Invalid species" }),
   breed: z.string().optional().nullable(),
   color: z.string(),
@@ -33,30 +33,22 @@ export const animalSchema = z.object({
   imageUrl: z.string(),
   userId: z.string(),
   createdAt: z.string(),
-  lostDate: z.string().optional().nullable(),
   status: z.enum(animalStatus),
   contactNumber: z.string().min(1, "Contact number is required").max(20),
 });
 
 export type Animal = z.infer<typeof animalSchema>;
 
-export const animalAISchema = animalSchema
-  .pick({
-    specie: true,
-    breed: true,
-    color: true,
-    size: true,
-    estimatedAge: true,
-  })
-  .extend({
-    distinctiveFeatures: z.array(z.string()),
-    embeddingDescription: z.string(),
-    imageBase64: z.string(),
-  });
+// LOST ANIMAL SCHEMA
+export const lostAnimalSchema = animalSchema.extend({
+  name: z.string().min(1, "Name is required"),
+  lostDate: z.string().optional().nullable(),
+});
 
-export type AnimalAI = z.infer<typeof animalAISchema>;
+export type LostAnimal = z.infer<typeof lostAnimalSchema>;
 
-export const animalFormSchema = animalSchema
+// LOST ANIMAL FORM SCHEMA
+export const lostAnimalFormSchema = lostAnimalSchema
   .omit({
     id: true,
     imageUrl: true,
@@ -73,7 +65,44 @@ export const animalFormSchema = animalSchema
     imageBase64: z.string(),
   });
 
-export type AnimalForm = z.infer<typeof animalFormSchema>;
+export type LostAnimalForm = z.infer<typeof lostAnimalFormSchema>;
+
+// FOUND ANIMAL SCHEMA
+export const foundAnimalSchema = animalSchema
+  .omit({
+    coords: true,
+  })
+  .partial({
+    description: true,
+    contactNumber: true,
+    userId: true,
+    breed: true,
+    size: true,
+    estimatedAge: true,
+  });
+
+export type FoundAnimal = z.infer<typeof foundAnimalSchema>;
+
+// FOUND ANIMAL FORM SCHEMA
+export const foundAnimalFormSchema = foundAnimalSchema
+  .omit({
+    id: true,
+    imageUrl: true,
+    userId: true,
+    createdAt: true,
+  })
+  .extend({
+    specie: z.enum(species).nullable(),
+    size: z.enum(sizes).nullable(),
+    estimatedAge: z.enum(estimatedAges).nullable(),
+    status: z.string().default("active"),
+    embeddingDescription: z.string(),
+    imageBase64: z.string(),
+  });
+
+export type FoundAnimalForm = z.infer<typeof foundAnimalFormSchema>;
+
+// COMMON SCHEMAS
 
 export const animalImageFilesSchema = z.object({
   files: z
@@ -100,3 +129,19 @@ export const animalImageFilesSchema = z.object({
 });
 
 export type AnimalImageFiles = z.infer<typeof animalImageFilesSchema>;
+
+export const animalAISchema = animalSchema
+  .pick({
+    specie: true,
+    breed: true,
+    color: true,
+    size: true,
+    estimatedAge: true,
+  })
+  .extend({
+    distinctiveFeatures: z.array(z.string()),
+    embeddingDescription: z.string(),
+    imageBase64: z.string(),
+  });
+
+export type AnimalAI = z.infer<typeof animalAISchema>;

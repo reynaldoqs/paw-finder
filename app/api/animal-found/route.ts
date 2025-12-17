@@ -2,13 +2,11 @@ import { type NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 import { createClient } from "@/lib/supabase/server";
 import { omit } from "@/lib/utils";
-import { type Animal, lostAnimalFormSchema, type ResponseBody } from "@/types";
+import { type Animal, foundAnimalFormSchema, type ResponseBody } from "@/types";
 
 const openaiClient = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
-
-// export const runtime = "edge";
 
 export async function POST(request: NextRequest) {
   try {
@@ -25,9 +23,10 @@ export async function POST(request: NextRequest) {
 
     const formData = await request.json();
 
-    const validationResult = lostAnimalFormSchema.safeParse(formData);
+    const validationResult = foundAnimalFormSchema.safeParse(formData);
 
     if (!validationResult.success) {
+      console.log("Validation failed:", validationResult.error);
       const errors = validationResult.error.flatten().fieldErrors;
       return NextResponse.json(
         { error: "Validation failed", errors },
@@ -36,6 +35,7 @@ export async function POST(request: NextRequest) {
     }
 
     const validatedData = validationResult.data;
+    console.log("Validation success");
 
     const base64Data = validatedData.imageBase64.replace(
       /^data:image\/\w+;base64,/,
@@ -59,23 +59,23 @@ export async function POST(request: NextRequest) {
 
     const embedding = await openaiClient.embeddings.create({
       model: "text-embedding-3-large",
-      input: validatedData.embeddingDescription || validatedData.description,
+      input:
+        validatedData.embeddingDescription || validatedData.description || "",
     });
 
     const {
       estimatedAge: estimated_age,
-      lostDate: lost_date,
       contactNumber: contact_number,
       ...rest
     } = omit(validatedData, "imageBase64", "embeddingDescription");
 
-    const { data: animal } = await supabase
-      .from("lost_animal")
-      .insert([
-        { ...rest, lost_date, contact_number, estimated_age, image_url },
-      ])
+    const { data: animal, error: animalError } = await supabase
+      .from("found_animal")
+      .insert([{ ...rest, contact_number, estimated_age, image_url }])
       .select()
       .single();
+
+    console.log("Animal error:", animalError);
 
     if (!animal) {
       return NextResponse.json(
@@ -90,7 +90,7 @@ export async function POST(request: NextRequest) {
 
     const res: ResponseBody<Animal> = {
       success: true,
-      message: "Lost animal created successfully",
+      message: "Found animal created successfully",
       data: animal,
     };
 

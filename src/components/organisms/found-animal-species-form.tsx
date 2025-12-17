@@ -12,7 +12,7 @@ const speciesFormSchema = lostAnimalFormSchema.pick({ specie: true });
 
 type SpeciesFormData = z.infer<typeof speciesFormSchema>;
 
-export const LostAnimalSpeciesForm: React.FC = () => {
+export const FoundAnimalSpeciesForm: React.FC = () => {
   const { prev, next, formData, updateFormData } = useStepper();
 
   const { setValue, watch, handleSubmit, formState } = useForm<SpeciesFormData>(

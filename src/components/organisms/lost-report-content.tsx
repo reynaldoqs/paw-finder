@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import type { AnimalForm } from "@/types";
+import type { LostAnimalForm } from "@/types";
 import { Stepper, StepperProvider, TransitionContainer } from "../molecules";
 import { LostAnimalImageForm } from "./lost-animal-image-form";
 import { LostAnimalInfoForm } from "./lost-animal-info-form";
@@ -46,7 +46,7 @@ const data = [
 export const LostReportContent: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const handleComplete = (data: Partial<AnimalForm>) => {
+  const handleComplete = (data: Partial<LostAnimalForm>) => {
     console.log("Form completed with data:", data);
     setIsExpanded(true);
   };

@@ -10,6 +10,7 @@ import {
   FieldGroup,
   Input,
   Label,
+  PhoneInput,
   Select,
   SelectContent,
   SelectItem,
@@ -19,30 +20,34 @@ import {
 import { Textarea } from "../atoms/textarea";
 import { useStepper } from "../molecules/stepper-context";
 
-const infoFormSchema = lostAnimalFormSchema.pick({
-  name: true,
-  breed: true,
-  color: true,
-  size: true,
-  estimatedAge: true,
-  description: true,
-});
+const infoFormSchema = lostAnimalFormSchema
+  .pick({
+    breed: true,
+    color: true,
+    size: true,
+    estimatedAge: true,
+    description: true,
+    location: true,
+    contactNumber: true,
+  })
+  .partial({
+    description: true,
+  });
 
 type InfoFormData = z.infer<typeof infoFormSchema>;
 
-export const LostAnimalInfoForm: React.FC = () => {
+export const FoundAnimalInfoForm: React.FC = () => {
   const { next, prev, formData, updateFormData } = useStepper();
 
   const { control, handleSubmit, formState } = useForm<InfoFormData>({
     resolver: zodResolver(infoFormSchema),
     mode: "onChange",
     defaultValues: {
-      name: formData.name || "",
       breed: formData.breed || "",
       color: formData.color || "",
       size: formData.size,
       estimatedAge: formData.estimatedAge,
-      description: formData.description,
+      description: formData.description || "",
     },
   });
 
@@ -58,26 +63,6 @@ export const LostAnimalInfoForm: React.FC = () => {
     >
       <FieldGroup className="flex-1 mb-6">
         <div className="grid grid-cols-4 gap-4">
-          <div className="col-span-2">
-            <Controller
-              control={control}
-              name="name"
-              render={({ field, fieldState }) => (
-                <Field aria-invalid={fieldState.invalid}>
-                  <Label htmlFor="name" className="font-bold">
-                    Name *
-                  </Label>
-                  <Input
-                    {...field}
-                    id="name"
-                    aria-invalid={fieldState.invalid}
-                    placeholder="e.g. Max"
-                    autoComplete="off"
-                  />
-                </Field>
-              )}
-            />
-          </div>
           <div className="col-span-2">
             <Controller
               control={control}
@@ -98,7 +83,7 @@ export const LostAnimalInfoForm: React.FC = () => {
               )}
             />
           </div>
-          <div className="col-span-4">
+          <div className="col-span-2">
             <Controller
               control={control}
               name="breed"
@@ -175,14 +160,56 @@ export const LostAnimalInfoForm: React.FC = () => {
               render={({ field, fieldState }) => (
                 <Field aria-invalid={fieldState.invalid}>
                   <Label htmlFor="description" className="font-bold">
-                    Description *
+                    Description
                   </Label>
                   <Textarea
                     {...field}
                     id="description"
                     aria-invalid={fieldState.invalid}
-                    placeholder="e.g. Max is a friendly dog who loves to play with his toys."
+                    placeholder="e.g. Friendly dog with a distinctive white patch on chest."
                     className="min-h-[80px]"
+                  />
+                </Field>
+              )}
+            />
+          </div>
+
+          <div className="col-span-2">
+            <Controller
+              control={control}
+              name="location"
+              render={({ field, fieldState }) => (
+                <Field aria-invalid={fieldState.invalid}>
+                  <Label htmlFor="location" className="font-bold">
+                    Location *
+                  </Label>
+                  <Input
+                    {...field}
+                    id="location"
+                    aria-invalid={fieldState.invalid}
+                    placeholder="e.g., Central Park, New York"
+                    autoComplete="off"
+                  />
+                </Field>
+              )}
+            />
+          </div>
+
+          <div className="col-span-2">
+            <Controller
+              control={control}
+              name="contactNumber"
+              render={({ field, fieldState }) => (
+                <Field aria-invalid={fieldState.invalid}>
+                  <Label htmlFor="contactNumber" className="font-bold">
+                    Contact Number
+                  </Label>
+                  <PhoneInput
+                    {...field}
+                    id="contactNumber"
+                    aria-invalid={fieldState.invalid}
+                    placeholder="+1 (555) 123-4567"
+                    autoComplete="tel"
                   />
                 </Field>
               )}

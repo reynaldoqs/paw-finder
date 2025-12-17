@@ -6,7 +6,6 @@ import * as RPNInput from "react-phone-number-input";
 import flags from "react-phone-number-input/flags";
 
 import { cn } from "@/lib/utils";
-import { Button } from "./button";
 import {
   Command,
   CommandEmpty,
@@ -94,25 +93,25 @@ const CountrySelect = ({
 
   return (
     <Popover>
-      <PopoverTrigger>
-        <Button
-          type="button"
-          variant={"outline"}
+      <PopoverTrigger
+        type="button"
+        disabled={disabled}
+        className={cn(
+          "inline-flex items-center justify-center gap-1 rounded-e-none bg-gray-400/20 rounded-s-4xl px-3",
+          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+          "h-9 transition-colors outline-none",
+          "disabled:pointer-events-none disabled:opacity-50"
+        )}
+      >
+        <FlagComponent country={value} countryName={value} />
+        <HugeiconsIcon
+          icon={ArrowDown01Icon}
+          strokeWidth={2}
           className={cn(
-            "flex gap-1 rounded-e-none bg-gray-400/20 rounded-s-4xl px-3"
+            "-mr-2 h-4 w-4 opacity-50",
+            disabled ? "hidden" : "opacity-100"
           )}
-          disabled={disabled}
-        >
-          <FlagComponent country={value} countryName={value} />
-          <HugeiconsIcon
-            icon={ArrowDown01Icon}
-            strokeWidth={2}
-            className={cn(
-              "-mr-2 h-4 w-4 opacity-50",
-              disabled ? "hidden" : "opacity-100"
-            )}
-          />
-        </Button>
+        />
       </PopoverTrigger>
       <PopoverContent className="w-[300px] p-0">
         <Command className="dark:bg-neutral-950 border dark:border-neutral-800 border-neutral-200">
