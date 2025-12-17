@@ -6,12 +6,14 @@ import { cn } from "@/lib/utils";
 import type { AnimalForm } from "@/types";
 import { Emoji, Separator } from "../atoms";
 import { Badge } from "../atoms/badge";
+import { Spinner } from "../atoms/spinner";
 
 type AnimalSummaryCardProps = {
   data: Partial<AnimalForm>;
   showFullData?: boolean;
   className?: string;
   actions?: React.ReactNode;
+  loading?: boolean;
 };
 
 export const AnimalSummaryCard: React.FC<AnimalSummaryCardProps> = ({
@@ -19,49 +21,57 @@ export const AnimalSummaryCard: React.FC<AnimalSummaryCardProps> = ({
   showFullData = true,
   className,
   actions,
+  loading = false,
 }) => {
   return (
     <div
       className={cn(
-        "@container w-full",
+        "@container w-full relative",
         showFullData ? "p-4" : "p-0",
         className
       )}
     >
+      {loading && (
+        <div className="absolute inset-0 flex items-center justify-center z-10 bg-background/20 rounded-lg">
+          <Spinner className="size-8" />
+        </div>
+      )}
       <div
         className={cn(
-          "flex gap-4 justify-between",
-          showFullData ? "flex-col" : "flex-row items-center"
+          "flex gap-4 justify-between transition-all",
+          showFullData ? "flex-col" : "flex-row items-center",
+          loading && "grayscale pointer-events-none opacity-60"
         )}
       >
-        <div className="flex justify-between gap-4">
+        <div className="flex justify-between gap-3 sm:gap-4">
           {data.imageBase64 && (
-            <div className="flex justify-center">
+            <div className="flex justify-center shrink-0">
               {/** biome-ignore lint/performance/noImgElement: it happens in FE is not necessary to validate use Image */}
               <img
                 src={data.imageBase64}
                 alt={data.name || "Pet"}
                 className={cn(
-                  "w-full  object-cover rounded-full border border-border",
+                  "w-full object-cover rounded-full border border-border",
                   showFullData
-                    ? "max-w-[90px] h-[90px]"
-                    : "max-w-[72px] h-[72px]"
+                    ? "size-[64px] sm:size-[90px]"
+                    : "size-[56px] sm:size-[72px]"
                 )}
               />
             </div>
           )}
-          <div className="flex flex-col justify-center flex-1">
-            <div className="flex gap-2">
+          <div className="flex flex-col justify-center flex-1 min-w-0">
+            <div className="flex gap-2 items-center">
               {data.specie && showFullData && (
                 <Emoji emoji={speciesIcons[data.specie]} size={22} />
               )}
-              <h3 className="text-lg font-bold capitalize inline-block">
+              <h3 className="text-base sm:text-lg font-bold capitalize inline-block truncate">
                 {data.name || "—"}
               </h3>
             </div>
-            <div className="flex gap-2 mt-1">
-              {data.breed && <Badge>{data.breed}</Badge>}
-              {data.color && <Badge>{data.color}</Badge>}
+
+            <div className="hidden md:flex flex-wrap gap-1.5 sm:gap-2 mt-1">
+              {data.breed && <Badge className="text-xs">{data.breed}</Badge>}
+              {data.color && <Badge className="text-xs">{data.color}</Badge>}
             </div>
           </div>
         </div>

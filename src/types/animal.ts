@@ -51,7 +51,7 @@ export const animalAISchema = animalSchema
   .extend({
     distinctiveFeatures: z.array(z.string()),
     embeddingDescription: z.string(),
-    imageBase64: z.string().optional(),
+    imageBase64: z.string(),
   });
 
 export type AnimalAI = z.infer<typeof animalAISchema>;
@@ -70,7 +70,7 @@ export const animalFormSchema = animalSchema
     estimatedAge: z.enum(estimatedAges).nullable(),
     status: z.string().default("active"),
     embeddingDescription: z.string(),
-    imageBase64: z.string().optional(),
+    imageBase64: z.string(),
   });
 
 export type AnimalForm = z.infer<typeof animalFormSchema>;

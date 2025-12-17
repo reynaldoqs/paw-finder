@@ -98,3 +98,14 @@ export const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
 export const sizedArray = (size: number) =>
   Array.from({ length: size }, (_, index) => `item ${index + 1}`);
+
+export function omit<T extends object, K extends keyof T>(
+  obj: T,
+  ...keys: K[]
+): Omit<T, K> {
+  const result = { ...obj };
+  for (const key of keys) {
+    delete result[key];
+  }
+  return result;
+}

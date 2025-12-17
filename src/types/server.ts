@@ -1,5 +1,5 @@
 export type ResponseBody<T = unknown> = {
   success: boolean;
-  message: string | undefined;
+  message?: string;
   data: T;
 };

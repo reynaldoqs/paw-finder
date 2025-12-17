@@ -1,23 +1,29 @@
 "use client";
-import { usePostData } from "@/hooks/use-post-data";
-import { objectToFormData } from "@/lib/utils";
+import { useMutation } from "@tanstack/react-query";
+import { postData } from "@/lib/utils";
+import type { Animal, AnimalForm, ResponseBody } from "@/types";
 import { Button } from "../atoms";
 import { AnimalSummaryCard } from "../molecules";
 import { useStepper } from "../molecules/stepper-context";
 
 export const LostAnimalReview: React.FC = () => {
   const { formData, goToStep, complete, completed, reset } = useStepper();
-  const { postData, loading, error } = usePostData({
-    url: "/api/upload",
-    onSuccess: () => {
+
+  const submitMutation = useMutation({
+    mutationFn: (data: Partial<AnimalForm>) => {
+      return postData<ResponseBody<Animal>>("/api/animal-lost", data);
+    },
+    onSuccess: (res) => {
+      console.log("Submission successful:", res);
       complete();
+    },
+    onError: (error) => {
+      console.error("Submission failed:", error);
     },
   });
 
   const handleSubmit = () => {
-    const payload = objectToFormData(formData);
-
-    postData(payload);
+    submitMutation.mutate(formData);
   };
 
   return (
@@ -26,20 +32,27 @@ export const LostAnimalReview: React.FC = () => {
         <AnimalSummaryCard
           data={formData}
           showFullData={!completed}
+          loading={submitMutation.isPending}
           actions={
             <Button type="button" onClick={reset}>
-              Report another pet
+              Report another
             </Button>
           }
         />
       </div>
       {!completed && (
         <div className="flex flex-col gap-4 px-10 mt-auto">
-          {error && (
-            <p className="text-red-500 text-sm text-center">{error.message}</p>
+          {submitMutation.error && (
+            <p className="text-red-500 text-sm text-center">
+              {(submitMutation.error as Error).message}
+            </p>
           )}
-          <Button type="button" onClick={handleSubmit} loading={loading}>
-            {loading ? "Submitting..." : "Complete"}
+          <Button
+            type="button"
+            onClick={handleSubmit}
+            loading={submitMutation.isPending}
+          >
+            {submitMutation.isPending ? "Submitting..." : "Complete"}
           </Button>
           <Button type="button" variant="ghost" onClick={() => goToStep(0)}>
             Edit

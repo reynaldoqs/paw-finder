@@ -38,7 +38,6 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
         isDragging,
         dragProps,
       }) => {
-        console.log("imageList", imageList);
         const hasImages = imageList.length > 0;
         return (
           <div className="flex flex-col gap-2 relative flex-1 h-full">

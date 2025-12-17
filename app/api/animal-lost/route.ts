@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 import { createClient } from "@/lib/supabase/server";
+import { omit } from "@/lib/utils";
 import { type Animal, animalFormSchema, type ResponseBody } from "@/types";
 
 const openaiClient = new OpenAI({
@@ -22,24 +23,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const formData = await request.formData();
-    const formDataObject = {
-      name: formData.get("name"),
-      specie: formData.get("specie"),
-      breed: formData.get("breed") || undefined,
-      color: formData.get("color"),
-      description: formData.get("description"),
-      location: formData.get("location"),
-      contactNumber: formData.get("contactNumber"),
-      lostDate: formData.get("lostDate") || undefined,
-      imageFile: formData.get("imageFile"),
-    };
+    const formData = await request.json();
+    console.log("Received formData:", formData);
 
-    const validationResult = animalFormSchema.safeParse(formDataObject);
+    const validationResult = animalFormSchema.safeParse(formData);
 
     if (!validationResult.success) {
       const errors = validationResult.error.flatten().fieldErrors;
-      console.log("errors:", errors);
       return NextResponse.json(
         { error: "Validation failed", errors },
         { status: 400 }
@@ -47,14 +37,20 @@ export async function POST(request: NextRequest) {
     }
 
     const validatedData = validationResult.data;
-    const image = validatedData.imageFile as any;
+
+    const base64Data = validatedData.imageBase64.replace(
+      /^data:image\/\w+;base64,/,
+      ""
+    );
+    const buffer = Buffer.from(base64Data, "base64");
 
     const imageUuid = `${crypto.randomUUID()}.jpg`;
     const { data: uploadData, error: uploadError } = await supabase.storage
       .from("animals")
-      .upload(imageUuid, image, {
-        // cacheControl: "3600",
-        // upsert: false,
+      .upload(imageUuid, buffer, {
+        contentType: "image/jpeg",
+        cacheControl: "3600",
+        upsert: false,
       });
 
     if (uploadError)
@@ -62,52 +58,23 @@ export async function POST(request: NextRequest) {
 
     const image_url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/animals/${uploadData.path}`;
 
-    const response = await openaiClient.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [
-        {
-          role: "user",
-          content: [
-            {
-              type: "text",
-              text: "Describe this image in detail, focusing on the pet's appearance, breed, colors, and distinctive features.",
-            },
-            {
-              type: "image_url",
-              image_url: {
-                url: image_url,
-              },
-            },
-          ],
-        },
-      ],
-    });
-
-    let generatedDescription = response.choices[0].message.content || "";
-
-    if (!generatedDescription) {
-      console.error(
-        "Failed to generate description, using specie + color instead"
-      );
-      generatedDescription = `${validatedData.specie} ${validatedData.color}`;
-    }
-
     const embedding = await openaiClient.embeddings.create({
       model: "text-embedding-3-large",
-      input: generatedDescription,
+      input: validatedData.embeddingDescription || validatedData.description,
     });
 
     const {
-      // biome-ignore lint/correctness/noUnusedVariables: a way to not use delete
-      imageFile,
+      estimatedAge: estimated_age,
       lostDate: lost_date,
       contactNumber: contact_number,
       ...rest
-    } = validatedData;
+    } = omit(validatedData, "imageBase64", "embeddingDescription");
 
     const { data: animal } = await supabase
       .from("lost_animal")
-      .insert([{ ...rest, lost_date, contact_number, image_url }])
+      .insert([
+        { ...rest, lost_date, contact_number, estimated_age, image_url },
+      ])
       .select()
       .single();
 
@@ -124,6 +91,7 @@ export async function POST(request: NextRequest) {
 
     const res: ResponseBody<Animal> = {
       success: true,
+      message: "Lost animal created successfully",
       data: animal,
     };
 
