@@ -9,12 +9,12 @@ import { FoundAnimalReview } from "./found-animal-review";
 import { FoundAnimalSpeciesForm } from "./found-animal-species-form";
 
 const data = [
-  // {
-  //   id: "image-form",
-  //   title: "Animal Photo",
-  //   description: "Upload a clear photo of the animal you found.",
-  //   element: <FoundAnimalImageForm />,
-  // },
+  {
+    id: "image-form",
+    title: "Animal Photo",
+    description: "Upload a clear photo of the animal you found.",
+    element: <FoundAnimalImageForm />,
+  },
   {
     id: "species-form",
     title: "Animal Species",

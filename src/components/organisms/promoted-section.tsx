@@ -47,7 +47,7 @@ export const PromotedSectionSkeleton = () => {
       <p className="text-muted-foreground text-xs">
         Find lost pets and help them find their way home.
       </p>
-      <div className="w-full h-[122px] mt-4 flex items-center gap-[16px]">
+      <div className="w-full h-[122px] mt-4 flex items-center gap-[16px] overflow-hidden">
         {sizedArray(12).map((item) => (
           <PetCardSkeleton key={item} className="min-h-[100px] min-w-[120px]" />
         ))}

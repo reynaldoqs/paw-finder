@@ -10,12 +10,12 @@ import { LostAnimalReview } from "./lost-animal-review";
 import { LostAnimalSpeciesForm } from "./lost-animal-species-form";
 
 const data = [
-  // {
-  //   id: "image-form",
-  //   title: "Pet Photo",
-  //   description: "Upload a clear photo of your pet to help.",
-  //   element: <LostAnimalImageForm />,
-  // },
+  {
+    id: "image-form",
+    title: "Pet Photo",
+    description: "Upload a clear photo of your pet to help.",
+    element: <LostAnimalImageForm />,
+  },
   {
     id: "species-form",
     title: "Pet Species",

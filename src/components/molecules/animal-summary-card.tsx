@@ -1,19 +1,24 @@
 "use client";
 import { format } from "date-fns";
-import type { ImageListType } from "react-images-uploading";
-import { animalBgs, speciesColors, speciesIcons } from "@/constants";
+import { speciesIcons } from "@/constants";
 import { cn } from "@/lib/utils";
-import type { AnimalForm } from "@/types";
+import type { FoundAnimalForm, LostAnimalForm } from "@/types";
 import { Emoji, Separator } from "../atoms";
 import { Badge } from "../atoms/badge";
 import { Spinner } from "../atoms/spinner";
 
 type AnimalSummaryCardProps = {
-  data: Partial<AnimalForm>;
+  data: Partial<LostAnimalForm> | Partial<FoundAnimalForm>;
   showFullData?: boolean;
   className?: string;
   actions?: React.ReactNode;
   loading?: boolean;
+};
+
+const isLostAnimalForm = (
+  data: Partial<LostAnimalForm> | Partial<FoundAnimalForm>
+): data is Partial<LostAnimalForm> => {
+  return (data as Partial<LostAnimalForm>).lostDate !== undefined;
 };
 
 export const AnimalSummaryCard: React.FC<AnimalSummaryCardProps> = ({
@@ -23,6 +28,8 @@ export const AnimalSummaryCard: React.FC<AnimalSummaryCardProps> = ({
   actions,
   loading = false,
 }) => {
+  const isLostAnimal = isLostAnimalForm(data);
+
   return (
     <div
       className={cn(
@@ -49,9 +56,9 @@ export const AnimalSummaryCard: React.FC<AnimalSummaryCardProps> = ({
               {/** biome-ignore lint/performance/noImgElement: it happens in FE is not necessary to validate use Image */}
               <img
                 src={data.imageBase64}
-                alt={data.name || "Pet"}
+                alt={isLostAnimal ? "Lost pet" : "Found pet"}
                 className={cn(
-                  "w-full object-cover rounded-full border border-border",
+                  "w-full object-cover rounded-3xl border border-border",
                   showFullData
                     ? "size-[64px] sm:size-[90px]"
                     : "size-[56px] sm:size-[72px]"
@@ -64,9 +71,11 @@ export const AnimalSummaryCard: React.FC<AnimalSummaryCardProps> = ({
               {data.specie && showFullData && (
                 <Emoji emoji={speciesIcons[data.specie]} size={22} />
               )}
-              <h3 className="text-base sm:text-lg font-bold capitalize inline-block truncate">
-                {data.name || "—"}
-              </h3>
+              {isLostAnimal ? (
+                <h3 className="text-base sm:text-lg font-bold capitalize inline-block truncate">
+                  {data.name}
+                </h3>
+              ) : null}
             </div>
 
             <div className="hidden md:flex flex-wrap gap-1.5 sm:gap-2 mt-1">
@@ -90,12 +99,14 @@ export const AnimalSummaryCard: React.FC<AnimalSummaryCardProps> = ({
                 {data.location || "—"}
               </p>
             </div>
-            <div className="col-span-1">
-              <p className="text-sm text-foreground font-bold">Date lost</p>
-              <p className="text-sm mt-1 font-medium text-muted-foreground">
-                {data.lostDate ? format(data.lostDate, "PPP") : "—"}
-              </p>
-            </div>
+            {isLostAnimal ? (
+              <div className="col-span-1">
+                <p className="text-sm text-foreground font-bold">Date lost</p>
+                <p className="text-sm mt-1 font-medium text-muted-foreground">
+                  {data.lostDate ? format(data.lostDate, "PPP") : "—"}
+                </p>
+              </div>
+            ) : null}
             <div className="col-span-1">
               <p className="text-sm text-foreground font-bold">Contact</p>
               <p className="text-sm mt-1 font-medium text-muted-foreground">
