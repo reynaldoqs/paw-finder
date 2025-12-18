@@ -1,9 +1,9 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
-import type { z } from "zod/v3";
+import type { z } from "zod/v4";
 import { estimatedAges, sizes } from "@/constants";
-import { lostAnimalFormSchema } from "@/types";
+import { type LostAnimalForm, lostAnimalFormSchema } from "@/types";
 import {
   Button,
   Field,
@@ -31,15 +31,16 @@ const infoFormSchema = lostAnimalFormSchema.pick({
 type InfoFormData = z.infer<typeof infoFormSchema>;
 
 export const LostAnimalInfoForm: React.FC = () => {
-  const { next, prev, formData, updateFormData } = useStepper();
+  const { next, prev, formData, updateFormData } =
+    useStepper<Partial<LostAnimalForm>>();
 
   const { control, handleSubmit, formState } = useForm<InfoFormData>({
     resolver: zodResolver(infoFormSchema),
     mode: "onChange",
     defaultValues: {
-      name: formData.name || "",
-      breed: formData.breed || "",
-      color: formData.color || "",
+      name: formData.name,
+      breed: formData.breed,
+      color: formData.color,
       size: formData.size,
       estimatedAge: formData.estimatedAge,
       description: formData.description,
@@ -69,6 +70,7 @@ export const LostAnimalInfoForm: React.FC = () => {
                   </Label>
                   <Input
                     {...field}
+                    value={field.value ?? ""}
                     id="name"
                     aria-invalid={fieldState.invalid}
                     placeholder="e.g. Max"
@@ -89,6 +91,7 @@ export const LostAnimalInfoForm: React.FC = () => {
                   </Label>
                   <Input
                     {...field}
+                    value={field.value ?? ""}
                     id="color"
                     aria-invalid={fieldState.invalid}
                     placeholder="e.g. Brown"
@@ -127,7 +130,10 @@ export const LostAnimalInfoForm: React.FC = () => {
               render={({ field, fieldState }) => (
                 <Field aria-invalid={fieldState.invalid}>
                   <Label className="font-bold">Size *</Label>
-                  <Select value={field.value} onValueChange={field.onChange}>
+                  <Select
+                    value={field.value ?? ""}
+                    onValueChange={field.onChange}
+                  >
                     <SelectTrigger aria-invalid={fieldState.invalid}>
                       <SelectValue />
                     </SelectTrigger>
@@ -151,7 +157,10 @@ export const LostAnimalInfoForm: React.FC = () => {
               render={({ field, fieldState }) => (
                 <Field aria-invalid={fieldState.invalid}>
                   <Label className="font-bold">Age *</Label>
-                  <Select value={field.value} onValueChange={field.onChange}>
+                  <Select
+                    value={field.value ?? ""}
+                    onValueChange={field.onChange}
+                  >
                     <SelectTrigger aria-invalid={fieldState.invalid}>
                       <SelectValue />
                     </SelectTrigger>
@@ -191,12 +200,12 @@ export const LostAnimalInfoForm: React.FC = () => {
         </div>
       </FieldGroup>
 
-      <div className="flex items-center justify-end gap-2 border-t border-border pt-4">
-        <Button type="button" variant="ghost" onClick={prev}>
+      <div className="flex items-center justify-end gap-2 pt-4">
+        <Button type="button" size="lg" variant="ghost" onClick={prev}>
           Previous
         </Button>
 
-        <Button type="submit" disabled={!formState.isValid}>
+        <Button type="submit" size="lg" disabled={!formState.isValid}>
           Continue
         </Button>
       </div>

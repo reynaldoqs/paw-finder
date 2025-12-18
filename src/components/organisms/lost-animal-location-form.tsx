@@ -19,7 +19,8 @@ const locationFormSchema = z.object({
 type LocationFormData = z.infer<typeof locationFormSchema>;
 
 export const LostAnimalLocationForm: React.FC = () => {
-  const { next, prev, isFirst, formData, updateFormData } = useStepper();
+  const { next, prev, formData, updateFormData } =
+    useStepper<Partial<LocationFormData>>();
   const [isOpen, setIsOpen] = useState(false);
 
   const { control, handleSubmit, formState } = useForm<LocationFormData>({
@@ -28,11 +29,11 @@ export const LostAnimalLocationForm: React.FC = () => {
     defaultValues: {
       location: formData.location || "",
       contactNumber: formData.contactNumber || "",
-      lostDate: (formData.lostDate as any) || undefined,
+      lostDate: formData.lostDate || undefined,
     },
   });
 
-  const onFormSubmit = (data: any) => {
+  const onFormSubmit = (data: LocationFormData) => {
     updateFormData(data);
     next();
   };
@@ -75,21 +76,20 @@ export const LostAnimalLocationForm: React.FC = () => {
                     Lost Date
                   </Label>
                   <Popover open={isOpen} onOpenChange={setIsOpen}>
-                    <PopoverTrigger aria-label="Select date">
-                      <button
-                        type="button"
-                        id="lostDate"
-                        className={cn(
-                          "bg-input/30 border-input focus-visible:border-ring focus-visible:ring-ring/50 h-9 rounded-4xl border px-3 py-1 text-sm transition-colors w-full text-left outline-none",
-                          !field.value && "text-muted-foreground"
-                        )}
-                      >
-                        {field.value ? (
-                          format(field.value, "PPP")
-                        ) : (
-                          <span>Select a date</span>
-                        )}
-                      </button>
+                    <PopoverTrigger
+                      type="button"
+                      id="lostDate"
+                      aria-label="Select date"
+                      className={cn(
+                        "bg-input/30 border-input focus-visible:border-ring focus-visible:ring-ring/50 h-9 rounded-4xl border px-3 py-1 text-sm transition-colors w-full text-left outline-none",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      {field.value ? (
+                        format(field.value, "PPP")
+                      ) : (
+                        <span>Select a date</span>
+                      )}
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0">
                       <Calendar
@@ -130,12 +130,12 @@ export const LostAnimalLocationForm: React.FC = () => {
         </div>
       </FieldGroup>
 
-      <div className="flex items-center justify-end gap-2 border-t border-border pt-4">
-        <Button type="button" variant="ghost" onClick={prev}>
+      <div className="flex items-center justify-end gap-2 pt-4">
+        <Button type="button" size="lg" variant="ghost" onClick={prev}>
           Previous
         </Button>
 
-        <Button type="submit" disabled={!formState.isValid}>
+        <Button type="submit" size="lg" disabled={!formState.isValid}>
           Continue
         </Button>
       </div>

@@ -66,9 +66,10 @@ export const FoundAnimalImageForm: React.FC = () => {
         />
       </div>
 
-      <div className="flex items-center justify-end gap-2 border-t border-border pt-4">
+      <div className="flex items-center justify-end gap-2 pt-4">
         <Button
           type="submit"
+          size="lg"
           disabled={!formState.isValid || uploadImagesMutation.isPending}
         >
           {uploadImagesMutation.isPending ? "Uploading..." : "Continue"}

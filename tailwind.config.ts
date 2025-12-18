@@ -8,7 +8,7 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   plugins: [
-    require("tailwindcss-motion"),
+    // require("tailwindcss-motion"),
     require("tailwindcss-animate"),
     require("@tailwindcss/container-queries"),
   ],

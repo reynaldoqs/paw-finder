@@ -25,21 +25,21 @@ export const Stepper: React.FC<StepperProps> = ({ data, className }) => {
       <div className="flex flex-col flex-1">
         {!isLast && (
           <div
-            className="flex items-center flex-col motion-preset-fade"
+            className="flex items-start flex-col motion-preset-fade"
             key={data[currentStep]?.title}
           >
-            <h2 className="text-xl font-bold text-foreground text-center line-clamp-1">
-              {data[currentStep]?.title}
-            </h2>
             {data[currentStep]?.description && (
-              <p className="mt-1 text-sm text-muted-foreground text-center line-clamp-2 px-4">
+              <p className="text-xs text-muted-foreground text-center line-clamp-2">
                 {data[currentStep].description}
               </p>
             )}
+            <h2 className="text-xl font-black text-foreground text-center line-clamp-1">
+              {data[currentStep]?.title}
+            </h2>
           </div>
         )}
         {!isLast && (
-          <div className="w-2/3 mx-auto mt-4">
+          <div className="w-full mx-auto mt-2">
             <div className="h-[6px] w-full overflow-hidden rounded-full bg-orange-500/20">
               <div
                 className="h-full bg-orange-500 transition-all duration-500 ease-out"
@@ -51,7 +51,7 @@ export const Stepper: React.FC<StepperProps> = ({ data, className }) => {
 
         <div
           key={currentStep}
-          className="grow flex flex-col motion-preset-fade-lg"
+          className="grow flex flex-col animate-in duration-1000 fade-in w-full"
         >
           {data[currentStep]?.element}
         </div>

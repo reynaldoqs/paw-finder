@@ -1,5 +1,5 @@
 import type { ImageListType } from "react-images-uploading";
-import { z } from "zod/v3";
+import { z } from "zod/v4";
 import {
   animalStatus,
   estimatedAges,
@@ -13,7 +13,7 @@ export const animalSchema = z.object({
   id: z.string(),
   specie: z.enum(species, { message: "Invalid species" }),
   breed: z.string().optional().nullable(),
-  color: z.string(),
+  color: z.string().min(1, "Color is required"),
   size: z.enum(sizes, { message: "Invalid size" }),
   estimatedAge: z.enum(estimatedAges, { message: "Invalid estimated age" }),
   description: z
@@ -57,6 +57,7 @@ export const lostAnimalFormSchema = lostAnimalSchema
     createdAt: true,
   })
   .extend({
+    location: z.string().optional().nullable(),
     specie: z.enum(species).nullable(),
     size: z.enum(sizes).nullable(),
     estimatedAge: z.enum(estimatedAges).nullable(),

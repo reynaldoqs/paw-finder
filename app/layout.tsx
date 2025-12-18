@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { Lato } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import "./globals.css";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { MainFooter, MainNavbar } from "@/components";
+import { MainNavbar } from "@/components";
 import Providers from "./providers";
 
 const defaultUrl = process.env.VERCEL_URL
@@ -33,11 +32,12 @@ export default function RootLayout({
       <body className={`${lato.className} antialiased h-screen w-full`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          defaultTheme="light"
+          forcedTheme="light"
+          enableSystem={false}
           disableTransitionOnChange
         >
-          <div className="h-[100dvh] grid grid-rows-[auto_1fr]">
+          <div className="h-dvh grid grid-rows-[auto_1fr]">
             <MainNavbar />
             <div className="overflow-auto h-full">
               <Providers>{children}</Providers>

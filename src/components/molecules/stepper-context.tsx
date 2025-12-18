@@ -1,9 +1,8 @@
 "use client";
 
 import * as React from "react";
-import type { AnimalForm } from "@/types";
 
-type StepperContextValue = {
+type StepperContextValue<T = Record<string, unknown>> = {
   next: () => void;
   prev: () => void;
   goToStep: (step: number) => void;
@@ -11,34 +10,38 @@ type StepperContextValue = {
   totalSteps: number;
   isFirst: boolean;
   isLast: boolean;
-  formData: Partial<AnimalForm>;
-  updateFormData: (data: Partial<AnimalForm>) => void;
+  formData: Partial<T>;
+  updateFormData: (data: Partial<T>) => void;
   complete: () => void;
   completed: boolean;
   reset: () => void;
 };
 
-const StepperContext = React.createContext<StepperContextValue | null>(null);
+// biome-ignore lint/suspicious/noExplicitAny: Generic context requires any for type flexibility
+const StepperContext = React.createContext<StepperContextValue<any> | null>(
+  null
+);
 
-type StepperProviderProps = {
+type StepperProviderProps<T = Record<string, unknown>> = {
   children: React.ReactNode;
   totalSteps: number;
-  onComplete?: (data: Partial<AnimalForm>) => void;
-  initialData?: Partial<AnimalForm>;
+  onComplete?: (data: Partial<T>) => void;
+  initialData?: Partial<T>;
   onReset?: () => void;
 };
 
-export const StepperProvider: React.FC<StepperProviderProps> = ({
+export const StepperProvider = <
+  T extends Record<string, unknown> = Record<string, unknown>
+>({
   children,
   totalSteps,
   onComplete,
-  initialData = {},
+  initialData = {} as Partial<T>,
   onReset,
-}) => {
+}: StepperProviderProps<T>) => {
   const [currentStep, setCurrentStep] = React.useState(0);
   const [completed, setCompleted] = React.useState(false);
-  const [formData, setFormData] =
-    React.useState<Partial<AnimalForm>>(initialData);
+  const [formData, setFormData] = React.useState<Partial<T>>(initialData);
 
   const next = React.useCallback(() => {
     setCurrentStep((prev) => Math.min(prev + 1, totalSteps - 1));
@@ -57,7 +60,7 @@ export const StepperProvider: React.FC<StepperProviderProps> = ({
     [totalSteps]
   );
 
-  const updateFormData = React.useCallback((data: Partial<AnimalForm>) => {
+  const updateFormData = React.useCallback((data: Partial<T>) => {
     setFormData((prev) => ({ ...prev, ...data }));
   }, []);
 
@@ -107,10 +110,12 @@ export const StepperProvider: React.FC<StepperProviderProps> = ({
   );
 };
 
-export const useStepper = () => {
+export const useStepper = <
+  T = Record<string, unknown>,
+>(): StepperContextValue<T> => {
   const context = React.useContext(StepperContext);
   if (!context) {
     throw new Error("useStepper must be used within StepperProvider");
   }
-  return context;
+  return context as StepperContextValue<T>;
 };

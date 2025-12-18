@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import type { FoundAnimalForm } from "@/types";
+import { CleanCard } from "../atoms";
 import { Stepper, StepperProvider, TransitionContainer } from "../molecules";
 import { FoundAnimalImageForm } from "./found-animal-image-form";
 import { FoundAnimalInfoForm } from "./found-animal-info-form";
@@ -8,12 +9,12 @@ import { FoundAnimalReview } from "./found-animal-review";
 import { FoundAnimalSpeciesForm } from "./found-animal-species-form";
 
 const data = [
-  {
-    id: "image-form",
-    title: "Animal Photo",
-    description: "Upload a clear photo of the animal you found.",
-    element: <FoundAnimalImageForm />,
-  },
+  // {
+  //   id: "image-form",
+  //   title: "Animal Photo",
+  //   description: "Upload a clear photo of the animal you found.",
+  //   element: <FoundAnimalImageForm />,
+  // },
   {
     id: "species-form",
     title: "Animal Species",
@@ -52,7 +53,9 @@ export const FoundReportContent: React.FC = () => {
           onComplete={handleComplete}
           onReset={() => setIsExpanded(false)}
         >
-          <Stepper data={data} className="p-4 md:p-6 overflow-hidden" />
+          <CleanCard className="h-full w-full">
+            <Stepper data={data} />
+          </CleanCard>
         </StepperProvider>
       </TransitionContainer>
     </div>

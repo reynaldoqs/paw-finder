@@ -1,17 +1,18 @@
 "use client";
 import { useMutation } from "@tanstack/react-query";
 import { postData } from "@/lib/utils";
-import type { Animal, AnimalForm, ResponseBody } from "@/types";
+import type { LostAnimal, LostAnimalForm, ResponseBody } from "@/types";
 import { Button } from "../atoms";
 import { AnimalSummaryCard } from "../molecules";
 import { useStepper } from "../molecules/stepper-context";
 
 export const LostAnimalReview: React.FC = () => {
-  const { formData, goToStep, complete, completed, reset } = useStepper();
+  const { formData, goToStep, complete, completed, reset } =
+    useStepper<LostAnimalForm>();
 
   const submitMutation = useMutation({
-    mutationFn: (data: Partial<AnimalForm>) => {
-      return postData<ResponseBody<Animal>>("/api/animal-lost", data);
+    mutationFn: (data: Partial<LostAnimalForm>) => {
+      return postData<ResponseBody<LostAnimal>>("/api/animal-lost", data);
     },
     onSuccess: (res) => {
       console.log("Submission successful:", res);
@@ -49,12 +50,18 @@ export const LostAnimalReview: React.FC = () => {
           )}
           <Button
             type="button"
+            size="lg"
             onClick={handleSubmit}
             loading={submitMutation.isPending}
           >
             {submitMutation.isPending ? "Submitting..." : "Complete"}
           </Button>
-          <Button type="button" variant="ghost" onClick={() => goToStep(0)}>
+          <Button
+            type="button"
+            variant="ghost"
+            size="lg"
+            onClick={() => goToStep(0)}
+          >
             Edit
           </Button>
         </div>

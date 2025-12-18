@@ -1,9 +1,9 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
-import type { z } from "zod/v3";
+import type { z } from "zod/v4";
 import { estimatedAges, sizes } from "@/constants";
-import { lostAnimalFormSchema } from "@/types";
+import { type FoundAnimalForm, foundAnimalFormSchema } from "@/types";
 import {
   Button,
   Field,
@@ -20,7 +20,7 @@ import {
 import { Textarea } from "../atoms/textarea";
 import { useStepper } from "../molecules/stepper-context";
 
-const infoFormSchema = lostAnimalFormSchema
+const infoFormSchema = foundAnimalFormSchema
   .pick({
     breed: true,
     color: true,
@@ -37,17 +37,20 @@ const infoFormSchema = lostAnimalFormSchema
 type InfoFormData = z.infer<typeof infoFormSchema>;
 
 export const FoundAnimalInfoForm: React.FC = () => {
-  const { next, prev, formData, updateFormData } = useStepper();
+  const { next, prev, formData, updateFormData } =
+    useStepper<Partial<FoundAnimalForm>>();
 
   const { control, handleSubmit, formState } = useForm<InfoFormData>({
     resolver: zodResolver(infoFormSchema),
     mode: "onChange",
     defaultValues: {
-      breed: formData.breed || "",
-      color: formData.color || "",
+      breed: formData.breed,
+      color: formData.color,
       size: formData.size,
       estimatedAge: formData.estimatedAge,
-      description: formData.description || "",
+      description: formData.description,
+      location: formData.location,
+      contactNumber: formData.contactNumber,
     },
   });
 
@@ -74,6 +77,7 @@ export const FoundAnimalInfoForm: React.FC = () => {
                   </Label>
                   <Input
                     {...field}
+                    value={field.value ?? ""}
                     id="color"
                     aria-invalid={fieldState.invalid}
                     placeholder="e.g. Brown"
@@ -112,7 +116,10 @@ export const FoundAnimalInfoForm: React.FC = () => {
               render={({ field, fieldState }) => (
                 <Field aria-invalid={fieldState.invalid}>
                   <Label className="font-bold">Size *</Label>
-                  <Select value={field.value} onValueChange={field.onChange}>
+                  <Select
+                    value={field.value ?? ""}
+                    onValueChange={field.onChange}
+                  >
                     <SelectTrigger aria-invalid={fieldState.invalid}>
                       <SelectValue />
                     </SelectTrigger>
@@ -136,7 +143,10 @@ export const FoundAnimalInfoForm: React.FC = () => {
               render={({ field, fieldState }) => (
                 <Field aria-invalid={fieldState.invalid}>
                   <Label className="font-bold">Age *</Label>
-                  <Select value={field.value} onValueChange={field.onChange}>
+                  <Select
+                    value={field.value ?? ""}
+                    onValueChange={field.onChange}
+                  >
                     <SelectTrigger aria-invalid={fieldState.invalid}>
                       <SelectValue />
                     </SelectTrigger>
@@ -185,6 +195,7 @@ export const FoundAnimalInfoForm: React.FC = () => {
                   </Label>
                   <Input
                     {...field}
+                    value={field.value ?? ""}
                     id="location"
                     aria-invalid={fieldState.invalid}
                     placeholder="e.g., Central Park, New York"
@@ -218,12 +229,12 @@ export const FoundAnimalInfoForm: React.FC = () => {
         </div>
       </FieldGroup>
 
-      <div className="flex items-center justify-end gap-2 border-t border-border pt-4">
-        <Button type="button" variant="ghost" onClick={prev}>
+      <div className="flex items-center justify-end gap-2 pt-4">
+        <Button type="button" size="lg" variant="ghost" onClick={prev}>
           Previous
         </Button>
 
-        <Button type="submit" disabled={!formState.isValid}>
+        <Button type="submit" size="lg" disabled={!formState.isValid}>
           Continue
         </Button>
       </div>

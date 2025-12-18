@@ -1,10 +1,10 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import type { Animal } from "@/types";
+import type { LostAnimal } from "@/types";
 import { Skeleton } from "../atoms";
 
 type PetCardProps = {
-  animal: Animal;
+  animal: LostAnimal;
   className?: string;
 };
 
@@ -12,40 +12,37 @@ export const PetCard: React.FC<PetCardProps> = ({ animal, className }) => {
   return (
     <div
       className={cn(
-        "relative flex items-center gap-4 w-[280px] h-[90px] overflow-hidden rounded-xl border border-b-foreground/10",
+        "group relative size-full rounded-3xl overflow-hidden bg-gray-500 cursor-pointer",
         className
       )}
     >
-      <div className="relative size-[90px]">
-        <div
-          className="w-full h-full bg-red-300"
-          style={{
-            clipPath:
-              "polygon(50% 0%, 83% 12%, 100% 43%, 94% 78%, 68% 100%, 32% 100%, 0 100%, 0 0)",
-          }}
-        >
-          <Image
-            src={animal.imageUrl}
-            alt={animal.name}
-            width={90}
-            height={90}
-            className="object-cover w-full h-full"
-          />
-        </div>
-      </div>
+      <Image
+        src={animal.imageUrl || "/placeholder.png"}
+        alt={animal.name || "Lost pet"}
+        fill
+        style={{
+          objectFit: "cover",
+        }}
+      />
 
-      <div className="flex flex-1 flex-col justify-center pr-4 overflow-hidden">
-        <h3 className="text-base font-semibold text-foreground truncate">
-          {animal.name}
-        </h3>
-        <p className="line-clamp-2 text-xs text-muted-foreground mt-1">
-          {animal.description}
-        </p>
+      <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <div className="absolute bottom-0 left-0 right-0 p-2 text-white">
+          <h3 className="font-bold text-sm truncate">{animal.name}</h3>
+          <p className="text-xs text-white/90 truncate mt-0.5">
+            {animal.location}
+          </p>
+        </div>
       </div>
     </div>
   );
 };
 
-export const PetCardSkeleton: React.FC = () => {
-  return <Skeleton className="w-[280px] h-[90px] rounded-xl" />;
+type PetCardSkeletonProps = {
+  className?: string;
+};
+
+export const PetCardSkeleton: React.FC<PetCardSkeletonProps> = ({
+  className,
+}) => {
+  return <Skeleton className={cn("rounded-3xl", className)} />;
 };

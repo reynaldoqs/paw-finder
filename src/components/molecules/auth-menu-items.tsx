@@ -13,5 +13,9 @@ export const AuthMenuItems = () => {
     router.push("/auth/login");
   };
 
-  return <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>;
+  return (
+    <DropdownMenuItem onClick={logout} className="font-bold">
+      Logout
+    </DropdownMenuItem>
+  );
 };

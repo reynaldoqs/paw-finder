@@ -3,11 +3,13 @@
 import { Menu01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import type * as React from "react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import {
   Button,
+  Emoji,
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
@@ -21,26 +23,55 @@ type NavigationProps = {
   className?: string;
 };
 
+const ActiveMark = () => (
+  <span className="absolute right-3 -top-1 animate-in fade-in zoom-in">🐾</span>
+);
+
 export const Navigation: React.FC<NavigationProps> = ({ className }) => {
+  const pathname = usePathname();
+
+  const isActive = (path: string) => pathname === path;
+
   return (
     <NavigationMenu className={cn("hidden md:flex", className)}>
       <NavigationMenuList className="flex-wrap gap-1">
         <NavigationMenuItem>
-          <Link href="/" className={navigationMenuTriggerStyle()}>
-            Home
+          <Link
+            href="/pets/lost"
+            className={cn(navigationMenuTriggerStyle(), "relative")}
+          >
+            {isActive("/pets/lost") && <ActiveMark />}
+            Missing Pets
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link href="/pets/lost" className={navigationMenuTriggerStyle()}>
-            Lost
+          <Link
+            href="/pets/found"
+            className={cn(navigationMenuTriggerStyle(), "relative")}
+          >
+            {isActive("/pets/found") && <ActiveMark />}
+            Pets Found
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link href="/pets/found" className={navigationMenuTriggerStyle()}>
-            Found
+          <Link
+            href="/animals/lost"
+            className={cn(navigationMenuTriggerStyle(), "relative")}
+          >
+            {isActive("/animals/lost") && <ActiveMark />}I Lost My Pet
           </Link>
         </NavigationMenuItem>
+
         <NavigationMenuItem>
+          <Link
+            href="/animals/found"
+            className={cn(navigationMenuTriggerStyle(), "relative")}
+          >
+            {isActive("/animals/found") && <ActiveMark />}I Found a Pet
+          </Link>
+        </NavigationMenuItem>
+
+        {/* <NavigationMenuItem>
           <NavigationMenuTrigger>Actions</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid gap-2 px-3 py-3 sm:w-[210px] md:w-[310px]">
@@ -57,7 +88,7 @@ export const Navigation: React.FC<NavigationProps> = ({ className }) => {
               </ListItem>
             </ul>
           </NavigationMenuContent>
-        </NavigationMenuItem>
+        </NavigationMenuItem> */}
       </NavigationMenuList>
     </NavigationMenu>
   );

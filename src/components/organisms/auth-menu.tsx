@@ -1,22 +1,28 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import { Button } from "../atoms";
+import { getButtonStyles } from "../atoms";
 import { AuthMenuDropdown } from "../molecules/auth-menu-dropdown";
 
 export const AuthMenu = async () => {
   const supabase = await createClient();
 
-  const { data } = await supabase.auth.getClaims();
+  const { data } = await supabase.auth.getUser();
 
-  const user = data?.claims;
+  const user = data.user;
 
   return user ? (
-    <AuthMenuDropdown />
+    <AuthMenuDropdown user={user} />
   ) : (
     <div className="flex gap-2">
-      <Link href="/auth/sign-up">Sign up</Link>
-
-      <Link href="/auth/login">Sign in</Link>
+      <Link href="/auth/sign-up" className={getButtonStyles()}>
+        Sign up
+      </Link>
+      <Link
+        href="/auth/login"
+        className={getButtonStyles({ variant: "outline" })}
+      >
+        Sign in
+      </Link>
     </div>
   );
 };

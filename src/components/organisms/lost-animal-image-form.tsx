@@ -46,7 +46,7 @@ export const LostAnimalImageForm: React.FC = () => {
   return (
     <form
       onSubmit={handleSubmit(onFormSubmit)}
-      className="flex flex-col flex-1 mt-10"
+      className="flex flex-col flex-1 mt-10 w-full"
     >
       <div className="flex-1 mb-6">
         <Controller
@@ -66,9 +66,10 @@ export const LostAnimalImageForm: React.FC = () => {
         />
       </div>
 
-      <div className="flex items-center justify-end gap-2 border-t border-border pt-4">
+      <div className="flex items-center justify-end gap-2 pt-4">
         <Button
           type="submit"
+          size="lg"
           disabled={!formState.isValid || uploadImagesMutation.isPending}
         >
           {uploadImagesMutation.isPending ? "Uploading..." : "Continue"}

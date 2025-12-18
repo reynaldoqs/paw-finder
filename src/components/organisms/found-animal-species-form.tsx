@@ -1,19 +1,20 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import type { z } from "zod/v3";
+import type { z } from "zod/v4";
 import { species } from "@/constants";
 
-import { lostAnimalFormSchema } from "@/types";
+import { type FoundAnimalForm, foundAnimalFormSchema } from "@/types";
 import { AnimalButton, Button, FieldGroup } from "../atoms";
 import { useStepper } from "../molecules/stepper-context";
 
-const speciesFormSchema = lostAnimalFormSchema.pick({ specie: true });
+const speciesFormSchema = foundAnimalFormSchema.pick({ specie: true });
 
 type SpeciesFormData = z.infer<typeof speciesFormSchema>;
 
 export const FoundAnimalSpeciesForm: React.FC = () => {
-  const { prev, next, formData, updateFormData } = useStepper();
+  const { prev, next, formData, updateFormData } =
+    useStepper<Partial<FoundAnimalForm>>();
 
   const { setValue, watch, handleSubmit, formState } = useForm<SpeciesFormData>(
     {
@@ -52,12 +53,16 @@ export const FoundAnimalSpeciesForm: React.FC = () => {
         </div>
       </FieldGroup>
 
-      <div className="flex items-center justify-end gap-2 border-t border-border pt-4">
-        <Button type="button" variant="ghost" onClick={prev}>
+      <div className="flex items-center justify-end gap-2 pt-4">
+        <Button type="button" size="lg" variant="ghost" onClick={prev}>
           Previous
         </Button>
 
-        <Button type="submit" disabled={!formState.isValid || !selectedSpecie}>
+        <Button
+          type="submit"
+          size="lg"
+          disabled={!formState.isValid || !selectedSpecie}
+        >
           Continue
         </Button>
       </div>
