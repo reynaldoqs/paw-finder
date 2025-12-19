@@ -12,7 +12,7 @@ export const LostAnimalReview: React.FC = () => {
 
   const submitMutation = useMutation({
     mutationFn: (data: Partial<LostAnimalForm>) => {
-      return postData<ResponseBody<LostAnimal>>("/api/animal-lost", data);
+      return postData<ResponseBody<LostAnimal>>("/api/animal/lost", data);
     },
     onSuccess: (res) => {
       console.log("Submission successful:", res);

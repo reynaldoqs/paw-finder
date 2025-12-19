@@ -17,7 +17,7 @@ export const HeroSection = () => {
         </div>
         <div className="px-4 md:px-6 flex flex-col sm:flex-row gap-3 md:gap-4">
           <Link
-            href="/animals/found"
+            href="/animal/report/found"
             className="group relative text-base text-center md:text-lg px-8 py-3 md:px-10 md:py-4 rounded-full bg-foreground text-background font-semibold transition-all duration-300 hover:scale-105 hover:shadow-xl overflow-hidden"
           >
             <span className="relative z-10">Report found pet</span>
@@ -25,7 +25,7 @@ export const HeroSection = () => {
           </Link>
 
           <Link
-            href="/animals/lost"
+            href="/animal/report/lost"
             className="group text-base text-center md:text-lg px-8 py-3 md:px-10 md:py-4 rounded-full border-2 border-foreground/20 font-semibold transition-all duration-300 hover:border-foreground hover:bg-foreground/5 hover:scale-105"
           >
             Report lost pet

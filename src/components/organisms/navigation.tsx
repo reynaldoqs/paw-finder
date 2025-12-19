@@ -55,19 +55,19 @@ export const Navigation: React.FC<NavigationProps> = ({ className }) => {
         </NavigationMenuItem>
         <NavigationMenuItem>
           <Link
-            href="/animals/lost"
+            href="/animal/report/lost"
             className={cn(navigationMenuTriggerStyle(), "relative")}
           >
-            {isActive("/animals/lost") && <ActiveMark />}I Lost My Pet
+            {isActive("/animal/report/lost") && <ActiveMark />}I Lost My Pet
           </Link>
         </NavigationMenuItem>
 
         <NavigationMenuItem>
           <Link
-            href="/animals/found"
+            href="/animal/report/found"
             className={cn(navigationMenuTriggerStyle(), "relative")}
           >
-            {isActive("/animals/found") && <ActiveMark />}I Found a Pet
+            {isActive("/animal/report/found") && <ActiveMark />}I Found a Pet
           </Link>
         </NavigationMenuItem>
 
@@ -75,11 +75,11 @@ export const Navigation: React.FC<NavigationProps> = ({ className }) => {
           <NavigationMenuTrigger>Actions</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid gap-2 px-3 py-3 sm:w-[210px] md:w-[310px]">
-              <ListItem title="Report lost pet" href="/animals/lost">
+              <ListItem title="Report lost pet" href="/animal/report/lost">
                 By uploading a photo, description, and last seen location so the
                 community can help find it.
               </ListItem>
-              <ListItem title="Report found pet" href="/animals/found">
+              <ListItem title="Report found pet" href="/animal/report/found">
                 by uploading a photo, details, and location so we can help
                 identify and notify the owner.
               </ListItem>

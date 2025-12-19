@@ -27,7 +27,7 @@ export const FoundAnimalImageForm: React.FC = () => {
 
   const uploadImagesMutation = useMutation({
     mutationFn: (data: AnimalImageFiles) => {
-      return postData<ResponseBody<AnimalAI>>("/api/animal-images", data);
+      return postData<ResponseBody<AnimalAI>>("/api/animal/images", data);
     },
     onSuccess: (data: ResponseBody<AnimalAI>) => {
       console.log("Upload successful:", data);
