@@ -4,7 +4,6 @@ export { AuthMenuDropdown } from "./auth-menu-dropdown";
 export { AuthMenuItems } from "./auth-menu-items";
 export { ImageMagnifier } from "./image-magnifier";
 export { ImageUploader } from "./image-uploader";
-export { LostAnimalCard } from "./lost-animal-card";
 export { PawHeader } from "./paw-header";
 export { PetCard, PetCardSkeleton } from "./pet-card";
 export { SmartAlert } from "./smart-alert";

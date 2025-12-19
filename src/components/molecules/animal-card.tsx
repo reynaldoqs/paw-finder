@@ -10,10 +10,10 @@ import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import type { AnimalForm } from "@/types";
+import type { Animal } from "@/types";
 
 type AnimalCardProps = {
-  animal: Partial<AnimalForm> & {
+  animal: Partial<Animal> & {
     id?: string;
     imageUrl?: string;
   };
@@ -29,20 +29,6 @@ export const AnimalCard: React.FC<AnimalCardProps> = ({
   const [imageUrl, setImageUrl] = React.useState<string | null>(
     animal.imageUrl || null
   );
-
-  React.useEffect(() => {
-    if (!animal.imageFile?.[0]) {
-      setImageUrl(animal.imageUrl || null);
-      return;
-    }
-
-    // const url = URL.createObjectURL(animal.imageFile[0]);
-    setImageUrl("");
-
-    return () => {
-      URL.revokeObjectURL("");
-    };
-  }, [animal.imageFile, animal.imageUrl]);
 
   const speciesColors = {
     dog: "bg-blue-500/10 text-blue-700 dark:text-blue-400",
@@ -70,7 +56,7 @@ export const AnimalCard: React.FC<AnimalCardProps> = ({
         {imageUrl ? (
           <Image
             src={imageUrl}
-            alt={animal.name || "Animal"}
+            alt={"Animal"}
             fill
             unoptimized
             className="object-cover transition-transform duration-500 group-hover:scale-110"
@@ -107,7 +93,7 @@ export const AnimalCard: React.FC<AnimalCardProps> = ({
         {/* Title & Breed */}
         <div className="mb-3">
           <h3 className="text-lg font-bold text-foreground mb-1 line-clamp-1">
-            {animal.name || "Unknown"}
+            {"Unknown"}
           </h3>
           {animal.breed && (
             <p className="text-sm text-muted-foreground line-clamp-1">
@@ -133,16 +119,6 @@ export const AnimalCard: React.FC<AnimalCardProps> = ({
                 className="h-4 w-4 mt-0.5 flex-shrink-0"
               />
               <span className="line-clamp-1">{animal.location}</span>
-            </div>
-          )}
-
-          {animal.lostDate && (
-            <div className="flex items-center gap-2 text-muted-foreground">
-              <HugeiconsIcon
-                icon={Calendar03Icon}
-                strokeWidth={2}
-                className="h-4 w-4 flex-shrink-0"
-              />
             </div>
           )}
 

@@ -2,7 +2,12 @@ import camelcaseKeys from "camelcase-keys";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import type z from "zod/v3";
-import type { AnimalAI, AnimalForm, ResponseBody } from "@/types";
+import type {
+  AnimalAI,
+  FoundAnimalForm,
+  LostAnimalForm,
+  ResponseBody,
+} from "@/types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -50,7 +55,7 @@ export const objectToFormData = (object: Record<string, unknown>) => {
 
 export const animalAItoAnimalForm = (
   animalAI: AnimalAI
-): Partial<AnimalForm> => {
+): Partial<LostAnimalForm | FoundAnimalForm> => {
   const {
     specie,
     breed,
