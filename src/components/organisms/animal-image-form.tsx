@@ -14,7 +14,7 @@ import { Button } from "../atoms";
 import { ImageUploader } from "../molecules";
 import { useStepper } from "../molecules/stepper-context";
 
-export const LostAnimalImageForm: React.FC = () => {
+export const AnimalImageForm: React.FC = () => {
   const { next, updateFormData } = useStepper();
 
   const { control, handleSubmit, formState } = useForm({
@@ -29,9 +29,11 @@ export const LostAnimalImageForm: React.FC = () => {
     mutationFn: (data: AnimalImageFiles) => {
       return postData<ResponseBody<AnimalAI>>("/api/animal/images", data);
     },
-    onSuccess: (data: ResponseBody<AnimalAI>) => {
-      console.log("Upload successful:", data);
-      updateFormData(animalAItoAnimalForm(data.data));
+    onSuccess: (resp: ResponseBody<AnimalAI>) => {
+      console.log("Upload successful:", resp);
+      const updatedData = animalAItoAnimalForm(resp.data);
+      console.log("Updated data:", updatedData);
+      updateFormData(updatedData);
       next();
     },
     onError: (error) => {

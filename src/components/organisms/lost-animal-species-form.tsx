@@ -4,11 +4,7 @@ import { useForm } from "react-hook-form";
 import type { z } from "zod/v4";
 import { species } from "@/constants";
 
-import {
-  type LostAnimal,
-  type LostAnimalForm,
-  lostAnimalFormSchema,
-} from "@/types";
+import { type LostAnimalForm, lostAnimalFormSchema } from "@/types";
 import { AnimalButton, Button, FieldGroup } from "../atoms";
 import { useStepper } from "../molecules/stepper-context";
 

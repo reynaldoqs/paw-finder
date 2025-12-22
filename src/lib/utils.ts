@@ -114,3 +114,19 @@ export function omit<T extends object, K extends keyof T>(
   }
   return result;
 }
+
+export function snakeCase<T extends Record<string, unknown>>(
+  obj: T
+): Record<string, unknown> {
+  const result: Record<string, unknown> = {};
+
+  for (const [key, value] of Object.entries(obj)) {
+    const snakeCaseKey = key.replace(
+      /[A-Z]/g,
+      (letter) => `_${letter.toLowerCase()}`
+    );
+    result[snakeCaseKey] = value;
+  }
+
+  return result;
+}

@@ -10,9 +10,6 @@ export async function POST(request: NextRequest) {
   try {
     const data = await request.json();
 
-    console.log("Received animal images data:", data);
-    console.log("Number of files:", data.files?.length || 0);
-
     if (!data.files || data.files.length === 0) {
       return NextResponse.json(
         {
@@ -42,7 +39,7 @@ export async function POST(request: NextRequest) {
   "color": "color or colors name",
   "size": "small" | "medium" | "large" if uncertain (can be null),
   "distinctiveFeatures": ["feature 1", "feature 2", "feature 3..."],
-  "estimatedAge": "puppy/kitten" | "young" | "adult" | "senior" if uncertain (can be null)"
+  "estimatedAge": "infant" | "young" | "adult" | "senior" if uncertain (can be null)"
 }
 
 CRITICAL REQUIREMENTS:
@@ -51,7 +48,7 @@ CRITICAL REQUIREMENTS:
 - "color" must be a string of color name (at least one color)
 - "size" must be EXACTLY one of: "small", "medium", "large"
 - "distinctiveFeatures" must be an array of strings describing notable features
-- "estimatedAge" must be EXACTLY one of: "puppy/kitten", "young", "adult", "senior"
+- "estimatedAge" must be EXACTLY one of: "infant", "young", "adult", "senior"
 
 Be as specific and accurate as possible. If uncertain about any field, use the most appropriate general term from the allowed values.`,
             },
@@ -79,16 +76,20 @@ Be as specific and accurate as possible. If uncertain about any field, use the m
       );
     }
 
-    const animalInfo = JSON.parse(aiResponse);
-    const validatedAnimalInfo = animalAISchema.partial().parse(animalInfo);
+    console.log("AI response", aiResponse);
 
-    console.log("Extracted and validated animal info:", validatedAnimalInfo);
+    const animalInfo = JSON.parse(aiResponse);
+    // @todo: verify what happens if AI response is a json which doest fit with the schema
+    const validatedAnimalInfo = animalAISchema.partial().parse(animalInfo);
 
     return NextResponse.json(
       {
         success: true,
         message: "Animal information extracted successfully",
-        data: { ...validatedAnimalInfo, imageBase64: base64MainImage },
+        data: {
+          ...validatedAnimalInfo,
+          imageBase64: base64MainImage,
+        },
       },
       { status: 200 }
     );

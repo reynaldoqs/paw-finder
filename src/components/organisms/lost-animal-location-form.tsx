@@ -3,17 +3,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { z } from "zod/v3";
+import type { z } from "zod/v4";
 import { cn } from "@/lib/utils";
+import { lostAnimalFormSchema } from "@/types";
 import { Button, Field, FieldGroup, Input, Label, PhoneInput } from "../atoms";
 import { Calendar } from "../atoms/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "../atoms/popover";
 import { useStepper } from "../molecules/stepper-context";
 
-const locationFormSchema = z.object({
-  location: z.string().min(1),
-  contactNumber: z.string().min(1),
-  lostDate: z.date().optional(),
+const locationFormSchema = lostAnimalFormSchema.pick({
+  lastSeenLocation: true,
+  contactNumber: true,
+  lostDate: true,
 });
 
 type LocationFormData = z.infer<typeof locationFormSchema>;
@@ -27,9 +28,9 @@ export const LostAnimalLocationForm: React.FC = () => {
     resolver: zodResolver(locationFormSchema),
     mode: "onChange",
     defaultValues: {
-      location: formData.location || "",
-      contactNumber: formData.contactNumber || "",
-      lostDate: formData.lostDate || undefined,
+      lastSeenLocation: formData.lastSeenLocation,
+      contactNumber: formData.contactNumber,
+      lostDate: formData.lostDate,
     },
   });
 
@@ -48,15 +49,16 @@ export const LostAnimalLocationForm: React.FC = () => {
           <div className="col-span-4">
             <Controller
               control={control}
-              name="location"
+              name="lastSeenLocation"
               render={({ field, fieldState }) => (
                 <Field aria-invalid={fieldState.invalid}>
-                  <Label htmlFor="location" className="font-bold">
+                  <Label htmlFor="lastSeenLocation" className="font-bold">
                     Location *
                   </Label>
                   <Input
                     {...field}
-                    id="location"
+                    value={field.value ?? ""}
+                    id="lastSeenLocation"
                     aria-invalid={fieldState.invalid}
                     placeholder="e.g., Central Park, New York"
                     autoComplete="off"
@@ -86,7 +88,7 @@ export const LostAnimalLocationForm: React.FC = () => {
                       )}
                     >
                       {field.value ? (
-                        format(field.value, "PPP")
+                        format(new Date(field.value), "PPP")
                       ) : (
                         <span>Select a date</span>
                       )}
@@ -94,9 +96,11 @@ export const LostAnimalLocationForm: React.FC = () => {
                     <PopoverContent className="w-auto p-0">
                       <Calendar
                         mode="single"
-                        selected={field.value}
+                        selected={
+                          field.value ? new Date(field.value) : undefined
+                        }
                         onSelect={(date) => {
-                          field.onChange(date);
+                          field.onChange(date?.toISOString());
                           setIsOpen(false);
                         }}
                       />

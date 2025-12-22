@@ -27,7 +27,7 @@ const infoFormSchema = foundAnimalFormSchema
     size: true,
     estimatedAge: true,
     description: true,
-    location: true,
+    foundLocation: true,
     contactNumber: true,
   })
   .partial({
@@ -49,7 +49,7 @@ export const FoundAnimalInfoForm: React.FC = () => {
       size: formData.size,
       estimatedAge: formData.estimatedAge,
       description: formData.description,
-      location: formData.location,
+      foundLocation: formData.foundLocation,
       contactNumber: formData.contactNumber,
     },
   });
@@ -187,16 +187,16 @@ export const FoundAnimalInfoForm: React.FC = () => {
           <div className="col-span-2">
             <Controller
               control={control}
-              name="location"
+              name="foundLocation"
               render={({ field, fieldState }) => (
                 <Field aria-invalid={fieldState.invalid}>
-                  <Label htmlFor="location" className="font-bold">
+                  <Label htmlFor="foundLocation" className="font-bold">
                     Location *
                   </Label>
                   <Input
                     {...field}
                     value={field.value ?? ""}
-                    id="location"
+                    id="foundLocation"
                     aria-invalid={fieldState.invalid}
                     placeholder="e.g., Central Park, New York"
                     autoComplete="off"

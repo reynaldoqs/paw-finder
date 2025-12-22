@@ -8,11 +8,21 @@ import {
   species,
 } from "../constants";
 
+// ANIMAL IMAGES SCHEMA
+export const animalImageSchema = z.object({
+  url: z.string(),
+  width: z.number(),
+  height: z.number(),
+  color: z.string().optional(),
+});
+
+export type AnimalImage = z.infer<typeof animalImageSchema>;
+
 // BASE ANIMAL SCHEMA
 export const animalSchema = z.object({
   id: z.string(),
   specie: z.enum(species, { message: "Invalid species" }),
-  breed: z.string().optional().nullable(),
+  breed: z.string().optional(),
   color: z.string().min(1, "Color is required"),
   size: z.enum(sizes, { message: "Invalid size" }),
   estimatedAge: z.enum(estimatedAges, { message: "Invalid estimated age" }),
@@ -20,21 +30,11 @@ export const animalSchema = z.object({
     .string()
     .min(5, "Description must be at least 5 characters")
     .max(1000),
-  location: z
-    .string()
-    .min(5, "Location must be at least 5 characters")
-    .max(300),
-  coords: z
-    .object({
-      lat: z.number(),
-      lng: z.number(),
-    })
-    .nullable(),
   imageUrl: z.string(),
+  images: z.array(animalImageSchema).optional(),
   userId: z.string(),
   createdAt: z.string(),
-  status: z.enum(animalStatus),
-  contactNumber: z.string().min(1, "Contact number is required").max(20),
+  status: z.enum(animalStatus).default("active"),
 });
 
 export type Animal = z.infer<typeof animalSchema>;
@@ -42,47 +42,49 @@ export type Animal = z.infer<typeof animalSchema>;
 // LOST ANIMAL SCHEMA
 export const lostAnimalSchema = animalSchema.extend({
   name: z.string().min(1, "Name is required"),
-  lostDate: z.string().optional().nullable(),
+  lostDate: z.string().optional(),
+  contactNumber: z.string().min(1, "Contact number is required").max(20),
+  lastSeenLocation: z
+    .string()
+    .min(5, "Location must be at least 5 characters")
+    .max(300),
 });
 
 export type LostAnimal = z.infer<typeof lostAnimalSchema>;
 
-// LOST ANIMAL FORM SCHEMA
-export const lostAnimalFormSchema = lostAnimalSchema
-  .omit({
-    id: true,
-    imageUrl: true,
-    coords: true,
-    userId: true,
-    createdAt: true,
-  })
-  .extend({
-    location: z.string().optional().nullable(),
-    specie: z.enum(species).nullable(),
-    size: z.enum(sizes).nullable(),
-    estimatedAge: z.enum(estimatedAges).nullable(),
-    status: z.string().default("active"),
-    embeddingDescription: z.string(),
-    imageBase64: z.string(),
-  });
-
-export type LostAnimalForm = z.infer<typeof lostAnimalFormSchema>;
-
 // FOUND ANIMAL SCHEMA
 export const foundAnimalSchema = animalSchema
-  .omit({
-    coords: true,
+  .extend({
+    foundLocation: z
+      .string()
+      .min(5, "Location must be at least 5 characters")
+      .max(300),
+    contactNumber: z.string().min(1, "Contact number is required").max(20),
   })
   .partial({
-    description: true,
+    foundLocation: true,
     contactNumber: true,
-    userId: true,
     breed: true,
     size: true,
     estimatedAge: true,
   });
 
 export type FoundAnimal = z.infer<typeof foundAnimalSchema>;
+
+// LOST ANIMAL FORM SCHEMA
+export const lostAnimalFormSchema = lostAnimalSchema
+  .omit({
+    id: true,
+    imageUrl: true,
+    userId: true,
+    createdAt: true,
+  })
+  .extend({
+    embeddingDescription: z.string(),
+    imageBase64: z.string(),
+  });
+
+export type LostAnimalForm = z.infer<typeof lostAnimalFormSchema>;
 
 // FOUND ANIMAL FORM SCHEMA
 export const foundAnimalFormSchema = foundAnimalSchema
@@ -93,10 +95,6 @@ export const foundAnimalFormSchema = foundAnimalSchema
     createdAt: true,
   })
   .extend({
-    specie: z.enum(species).nullable(),
-    size: z.enum(sizes).nullable(),
-    estimatedAge: z.enum(estimatedAges).nullable(),
-    status: z.string().default("active"),
     embeddingDescription: z.string(),
     imageBase64: z.string(),
   });

@@ -1,9 +1,9 @@
 "use client";
 import { useState } from "react";
 import type { LostAnimalForm } from "@/types";
-import { Card, CleanCard } from "../atoms";
+import { CleanCard } from "../atoms";
 import { Stepper, StepperProvider, TransitionContainer } from "../molecules";
-import { LostAnimalImageForm } from "./lost-animal-image-form";
+import { AnimalImageForm } from "./animal-image-form";
 import { LostAnimalInfoForm } from "./lost-animal-info-form";
 import { LostAnimalLocationForm } from "./lost-animal-location-form";
 import { LostAnimalReview } from "./lost-animal-review";
@@ -14,7 +14,7 @@ const data = [
     id: "image-form",
     title: "Pet Photo",
     description: "Upload a clear photo of your pet to help.",
-    element: <LostAnimalImageForm />,
+    element: <AnimalImageForm />,
   },
   {
     id: "species-form",

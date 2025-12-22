@@ -37,19 +37,19 @@ export const Navigation: React.FC<NavigationProps> = ({ className }) => {
       <NavigationMenuList className="flex-wrap gap-1">
         <NavigationMenuItem>
           <Link
-            href="/pets/lost"
+            href="/animal/lost"
             className={cn(navigationMenuTriggerStyle(), "relative")}
           >
-            {isActive("/pets/lost") && <ActiveMark />}
+            {isActive("/animal/lost") && <ActiveMark />}
             Missing Pets
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <Link
-            href="/pets/found"
+            href="/animal/found"
             className={cn(navigationMenuTriggerStyle(), "relative")}
           >
-            {isActive("/pets/found") && <ActiveMark />}
+            {isActive("/animal/found") && <ActiveMark />}
             Pets Found
           </Link>
         </NavigationMenuItem>

@@ -27,6 +27,7 @@ export const FoundAnimalImageForm: React.FC = () => {
 
   const uploadImagesMutation = useMutation({
     mutationFn: (data: AnimalImageFiles) => {
+      console.log("data", data);
       return postData<ResponseBody<AnimalAI>>("/api/animal/images", data);
     },
     onSuccess: (data: ResponseBody<AnimalAI>) => {
@@ -58,6 +59,7 @@ export const FoundAnimalImageForm: React.FC = () => {
                 images={(field.value as ImageListType | undefined) ?? []}
                 isLoading={uploadImagesMutation.isPending}
                 onChange={(newImages) => {
+                  console.log("newImages", newImages);
                   field.onChange(newImages as ImageListType);
                 }}
               />

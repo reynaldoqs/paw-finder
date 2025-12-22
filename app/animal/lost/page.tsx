@@ -1,6 +1,5 @@
 import { redirect } from "next/navigation";
-import { LostReportContent } from "@/components";
-import { TransitionDemo } from "@/components/organisms/transition-demo";
+
 import { createClient } from "@/lib/supabase/server";
 
 export default async function ProtectedPage() {

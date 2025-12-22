@@ -13,6 +13,7 @@ export * from "./input";
 export * from "./label";
 export * from "./loader";
 export * from "./logo-loop";
+export * from "./masonry";
 export * from "./navigation-menu";
 export * from "./phone-input";
 export * from "./popover";

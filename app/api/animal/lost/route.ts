@@ -1,14 +1,17 @@
 import { type NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
+import { createLostAnimal } from "@/actions/create-lost-animal";
 import { createClient } from "@/lib/supabase/server";
-import { omit } from "@/lib/utils";
-import { type Animal, lostAnimalFormSchema, type ResponseBody } from "@/types";
+
+import {
+  type LostAnimal,
+  lostAnimalFormSchema,
+  type ResponseBody,
+} from "@/types";
 
 const openaiClient = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
-
-// export const runtime = "edge";
 
 export async function POST(request: NextRequest) {
   try {
@@ -23,80 +26,74 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const formData = await request.json();
+    const requestBody = await request.json();
 
-    const validationResult = lostAnimalFormSchema.safeParse(formData);
+    const validationResult = lostAnimalFormSchema.safeParse(requestBody);
 
     if (!validationResult.success) {
-      const errors = validationResult.error.flatten().fieldErrors;
+      console.error("[Validation Error]:", validationResult.error);
       return NextResponse.json(
-        { error: "Validation failed", errors },
+        {
+          error: "Invalid form data",
+          details: validationResult.error.format(),
+        },
         { status: 400 }
       );
     }
 
-    const validatedData = validationResult.data;
+    const validatedFormData = validationResult.data;
 
-    const base64Data = validatedData.imageBase64.replace(
-      /^data:image\/\w+;base64,/,
-      ""
-    );
-    const buffer = Buffer.from(base64Data, "base64");
-
-    const imageUuid = `${crypto.randomUUID()}.jpg`;
-    const { data: uploadData, error: uploadError } = await supabase.storage
-      .from("animals")
-      .upload(imageUuid, buffer, {
-        contentType: "image/jpeg",
-        cacheControl: "3600",
-        upsert: false,
+    const { error: creationError, animal: createdAnimal } =
+      await createLostAnimal({
+        formData: validatedFormData,
+        userId: user.id,
       });
 
-    if (uploadError)
-      return NextResponse.json({ error: uploadError.message }, { status: 500 });
-
-    const image_url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/animals/${uploadData.path}`;
-
-    const embedding = await openaiClient.embeddings.create({
-      model: "text-embedding-3-large",
-      input: validatedData.embeddingDescription || validatedData.description,
-    });
-
-    const {
-      estimatedAge: estimated_age,
-      lostDate: lost_date,
-      contactNumber: contact_number,
-      ...rest
-    } = omit(validatedData, "imageBase64", "embeddingDescription");
-
-    const { data: animal } = await supabase
-      .from("lost_animal")
-      .insert([
-        { ...rest, lost_date, contact_number, estimated_age, image_url },
-      ])
-      .select()
-      .single();
-
-    if (!animal) {
+    if (creationError || !createdAnimal) {
+      console.error("[Lost Animal Creation Error]:", creationError);
       return NextResponse.json(
-        { error: "Failed to create animal" },
+        { error: "Failed to create lost animal record" },
         { status: 500 }
       );
     }
 
-    await supabase
-      .from("animal_embeddings")
-      .insert([{ animal_id: animal.id, embedding }]);
+    try {
+      const embeddingResponse = await openaiClient.embeddings.create({
+        model: "text-embedding-3-small",
+        input:
+          validatedFormData.embeddingDescription ||
+          validatedFormData.description,
+      });
 
-    const res: ResponseBody<Animal> = {
+      const embeddingVector = embeddingResponse.data[0]?.embedding;
+
+      if (!embeddingVector) {
+        throw new Error("No embedding vector returned from OpenAI");
+      }
+
+      const { error: embeddingInsertError } = await supabase
+        .from("lost_animal_embeddings")
+        .insert({
+          animal_id: createdAnimal.id,
+          embedding: embeddingVector,
+        });
+
+      if (embeddingInsertError) {
+        console.error("[Embedding DB Error]:", embeddingInsertError);
+      }
+    } catch (embeddingError) {
+      console.error("[Embedding Process Error]:", embeddingError);
+    }
+
+    const response: ResponseBody<LostAnimal> = {
       success: true,
       message: "Lost animal created successfully",
-      data: animal,
+      data: createdAnimal,
     };
 
-    return NextResponse.json(res, { status: 200 });
+    return NextResponse.json(response, { status: 200 });
   } catch (error) {
-    console.error("Unexpected error:", error);
+    console.error("[Lost Animal API Error]:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
