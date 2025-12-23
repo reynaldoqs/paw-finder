@@ -66,16 +66,18 @@ export const animalAItoAnimalForm = (
     embeddingDescription,
   } = animalAI;
 
-  const animalForm = {
-    specie,
-    breed,
-    color,
-    size,
-    estimatedAge,
-    imageBase64,
-    embeddingDescription,
-    description: animalAI.distinctiveFeatures.join(", "),
+  const animalForm: Partial<LostAnimalForm | FoundAnimalForm> = {
+    imageBase64: imageBase64 ?? undefined,
+    embeddingDescription: embeddingDescription ?? undefined,
+    description: animalAI.distinctiveFeatures?.join(", "),
   };
+  ``;
+  if (specie !== null && specie !== undefined) animalForm.specie = specie;
+  if (breed !== null && breed !== undefined) animalForm.breed = breed;
+  if (color !== null && color !== undefined) animalForm.color = color;
+  if (size !== null && size !== undefined) animalForm.size = size;
+  if (estimatedAge !== null && estimatedAge !== undefined)
+    animalForm.estimatedAge = estimatedAge;
 
   return animalForm;
 };

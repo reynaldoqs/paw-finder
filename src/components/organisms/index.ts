@@ -1,4 +1,5 @@
 export { AnimalImageForm } from "./animal-image-form";
+export { FoundPetsGrid } from "./found-pets-grid";
 export { LostAnimalLocationForm } from "./lost-animal-location-form";
 export { LostAnimalReview } from "./lost-animal-review";
 export { LostAnimalSpeciesForm } from "./lost-animal-species-form";

@@ -71,7 +71,7 @@ interface Item {
   id: string;
   img: string;
   url: string;
-  height: number;
+  aspectRatio: number;
 }
 
 interface GridItem extends Item {
@@ -163,7 +163,7 @@ export const Masonry: React.FC<MasonryProps> = ({
     return items.map((child) => {
       const col = colHeights.indexOf(Math.min(...colHeights));
       const x = columnWidth * col;
-      const height = child.height / 2;
+      const height = columnWidth / child.aspectRatio;
       const y = colHeights[col];
 
       colHeights[col] += height;

@@ -129,18 +129,15 @@ export const animalImageFilesSchema = z.object({
 
 export type AnimalImageFiles = z.infer<typeof animalImageFilesSchema>;
 
-export const animalAISchema = animalSchema
-  .pick({
-    specie: true,
-    breed: true,
-    color: true,
-    size: true,
-    estimatedAge: true,
-  })
-  .extend({
-    distinctiveFeatures: z.array(z.string()),
-    embeddingDescription: z.string(),
-    imageBase64: z.string(),
-  });
+export const animalAISchema = z.object({
+  specie: z.enum(species).nullish(),
+  breed: z.string().nullish(),
+  color: z.string().nullish(),
+  size: z.enum(sizes).nullish(),
+  estimatedAge: z.enum(estimatedAges).nullish(),
+  distinctiveFeatures: z.array(z.string()).nullish(),
+  embeddingDescription: z.string().nullish(),
+  imageBase64: z.string().nullish(),
+});
 
 export type AnimalAI = z.infer<typeof animalAISchema>;
