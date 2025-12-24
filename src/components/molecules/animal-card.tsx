@@ -109,7 +109,7 @@ export const AnimalCard: React.FC<AnimalCardProps> = ({
           </p>
         )}
 
-        {/* Info Grid */}
+        {/* Info Grid
         <div className="space-y-2 text-sm">
           {animal.location && (
             <div className="flex items-start gap-2 text-muted-foreground">
@@ -132,7 +132,7 @@ export const AnimalCard: React.FC<AnimalCardProps> = ({
               <span>{animal.contactNumber}</span>
             </div>
           )}
-        </div>
+        </div> */}
 
         {/* Color Tag */}
         {animal.color && (

@@ -96,7 +96,7 @@ export const AnimalSummaryCard: React.FC<AnimalSummaryCardProps> = ({
             <div className="col-span-1">
               <p className="text-sm text-foreground font-bold">Location</p>
               <p className="text-sm mt-1 font-medium text-muted-foreground">
-                {data.location || "—"}
+                {isLostAnimal ? data.lastSeenLocation : data.foundLocation}
               </p>
             </div>
             {isLostAnimal ? (

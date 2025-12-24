@@ -29,7 +29,7 @@ export const PetCard: React.FC<PetCardProps> = ({ animal, className }) => {
         <div className="absolute bottom-0 left-0 right-0 p-2 text-white">
           <h3 className="font-bold text-sm truncate">{animal.name}</h3>
           <p className="text-xs text-white/90 truncate mt-0.5">
-            {animal.location}
+            {animal.lastSeenLocation}
           </p>
         </div>
       </div>
