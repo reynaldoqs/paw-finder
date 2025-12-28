@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
               text: `Analyze this pet image and extract detailed information. Return ONLY a valid JSON object with this EXACT structure:
 
 {
-  "embeddingDescription": "A comprehensive description of the pet for semantic search (include breed, colors, distinctive features, size, age indicators, and any unique characteristics)",
+  "embeddingDescription": "A comprehensive description of the pet for semantic search (include breed, colors, distinctive features, and any unique characteristics)",
   "specie": "dog" | "cat" | "rabbit" | "guinea pig" | "hamster" | "other" if uncertain (can be null),
   "breed": "specific breed name or 'Mixed breed' if uncertain (can be null)",
   "color": "color or colors name",

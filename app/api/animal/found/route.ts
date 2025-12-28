@@ -56,6 +56,7 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       );
     }
+    let similarAnimals: any[] = [];
 
     try {
       const embeddingResponse = await openaiClient.embeddings.create({
@@ -82,14 +83,36 @@ export async function POST(request: NextRequest) {
       if (embeddingInsertError) {
         console.error("[Embedding DB Error]:", embeddingInsertError);
       }
+
+      const { data: similar, error: similarError } = await supabase.rpc(
+        "match_with_lost_animals",
+        {
+          query_embedding: embeddingVector,
+          match_threshold: 0.3,
+          match_count: 5,
+        }
+      );
+
+      if (similarError) {
+        console.error("[Similar Animals Error]:", similarError);
+      }
+
+      console.log("[Similar Animals]:", similar);
+      similarAnimals = similar;
     } catch (embeddingError) {
       console.error("[Embedding Process Error]:", embeddingError);
     }
 
-    const response: ResponseBody<FoundAnimal> = {
+    const response: ResponseBody<{
+      animal: FoundAnimal;
+      similarAnimals: any[];
+    }> = {
       success: true,
       message: "Found animal created successfully",
-      data: createdAnimal,
+      data: {
+        animal: createdAnimal,
+        similarAnimals,
+      },
     };
 
     return NextResponse.json(response, { status: 200 });
