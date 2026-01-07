@@ -1,10 +1,20 @@
+import type { Metadata } from "next";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
 } from "@/components";
+
+export const metadata: Metadata = {
+	title: "Sign Up Successful",
+	description: "Your account has been created. Please check your email to confirm.",
+	robots: {
+		index: false,
+		follow: false,
+	},
+};
 
 export default function Page() {
   return (

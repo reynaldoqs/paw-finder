@@ -1,8 +1,24 @@
 import type { Metadata } from "next";
+import { getAbsoluteUrl } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Report Lost Pet - Paw Finder",
-  description: "Report a lost pet and help reunite them with their family",
+	title: "Lost Pets - Search for Missing Animals",
+	description:
+		"Search for lost pets in your area. Browse our database of missing animals and help reunite them with their families.",
+	openGraph: {
+		title: "Lost Pets - Search for Missing Animals",
+		description:
+			"Search for lost pets in your area. Browse our database of missing animals and help reunite them with their families.",
+		url: getAbsoluteUrl("/animal/lost"),
+	},
+	twitter: {
+		title: "Lost Pets - Search for Missing Animals",
+		description:
+			"Search for lost pets in your area. Browse our database of missing animals and help reunite them with their families.",
+	},
+	alternates: {
+		canonical: getAbsoluteUrl("/animal/lost"),
+	},
 };
 
 type LostLayoutProps = {

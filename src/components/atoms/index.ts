@@ -23,4 +23,5 @@ export * from "./select";
 export * from "./separator";
 export * from "./skeleton";
 export * from "./spinner";
+export * from "./structured-data";
 export * from "./textarea";
